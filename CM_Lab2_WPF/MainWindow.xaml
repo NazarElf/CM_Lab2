@@ -8,12 +8,28 @@
         Title="MainWindow" Height="500" Width="758">
     <Window.Resources>
         <LinearGradientBrush x:Key="Buttons" EndPoint="0.5,1" StartPoint="0.5,0">
-            <GradientStop Color="#FF97A9B0" Offset="1"/>
-            <GradientStop Color="#FFF9F9F9"/>
+            <GradientStop Color="#CC97A9B0" Offset="1"/>
+            <GradientStop Color="#CCF9F9F9"/>
         </LinearGradientBrush>
     </Window.Resources>
     <Grid Name="BG" Background="Black">
-        <ListBox x:Name="listBox" Margin="10,10,10,48">
+        <ListBox x:Name="listBox" Margin="10,10,10,48" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+            <ListBox.Resources>
+                <LinearGradientBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF000000" Offset="0"/>
+                    <GradientStop Color="#FFFFFFFF" Offset="0.5"/>
+                    <GradientStop Color="#00000000" Offset="0.1"/>
+                    <GradientStop Color="#00000000" Offset="0.9"/>
+                    <GradientStop Color="#FF000000" Offset="1"/>
+                </LinearGradientBrush>
+                <LinearGradientBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFFFFFFF" Offset="0"/>
+                    <GradientStop Color="#FF4B4B4B" Offset="0.5"/>
+                    <GradientStop Color="#00000000" Offset="0.1"/>
+                    <GradientStop Color="#00000000" Offset="0.9"/>
+                    <GradientStop Color="#FFFFFFFF" Offset="1"/>
+                </LinearGradientBrush>
+            </ListBox.Resources>
             <ListBox.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF122329" Offset="0"/>
@@ -21,20 +37,22 @@
                 </LinearGradientBrush>
             </ListBox.Background>
             <ListBoxItem Name="CD" Height="40">
-                <ListBoxItem.Resources>
-                    <LinearGradientBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FF122329" Offset="0"/>
-                        <GradientStop Color="#FF304247" Offset="1"/>
+                <ListBoxItem.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black" Offset="0"/>
+                        <GradientStop Color="Black" Offset="1"/>
+                        <GradientStop Color="#00000000" Offset="0.1"/>
+                        <GradientStop Color="#00000000" Offset="0.9"/>
                     </LinearGradientBrush>
-                </ListBoxItem.Resources>
+                </ListBoxItem.Background>
                 <Grid Height="40">
-                    <TextBox Text="1,0" 
+                    <TextBox Text="1" 
                              Margin="127,2,42,2" 
                              BorderThickness="2" 
                              BorderBrush="#FF41666C" 
                              ToolTip="Tau" 
                              VerticalContentAlignment="Center" 
-                             Background="{DynamicResource Buttons}"/>
+                             Background="{DynamicResource Buttons}" KeyUp="TextBox_KeyUp"/>
                     <Label x:Name="label" 
                            Content="Central Processor" 
                            HorizontalAlignment="Left" 

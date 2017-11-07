@@ -23,10 +23,13 @@ namespace CM_Lab2_WPF
         public MainWindow()
         {
             InitializeComponent();
-            Accordance.Add(CD, new DeviceNode(1));
             Slider1.MouseWheel += new MouseWheelEventHandler(Slider_MouseWheel);
             Slider1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(Slider_ValueChanged);
             Slider1.IsEnabled = false;
+
+            DeviceNode CP = new DeviceNode(1.0, 6, 2);
+            Accordance.Add(CD, CP);
+            
             #region nice trash
             /*
             ListBoxItem lbi = new ListBoxItem();
@@ -81,7 +84,6 @@ namespace CM_Lab2_WPF
 
         Dictionary<ListBoxItem, DeviceNode> Accordance = new Dictionary<ListBoxItem, DeviceNode>();
         Random r = new Random();
-        bool first = true;
 
         void StartProcessing(params DeviceNode[] Nodes)
         {
@@ -155,22 +157,23 @@ namespace CM_Lab2_WPF
                 MenuItem nameMenu = new MenuItem();
             Brush style = this.FindResource("Buttons") as LinearGradientBrush;
 
-            if (first)
-            {
-                first = false;
-                listBox.Resources.Add(SystemColors.HighlightBrushKey, new LinearGradientBrush(new GradientStopCollection
-                            {
-                new GradientStop(Color.FromArgb(0xFF, 0x12, 0x23, 0x29), 0),
-                new GradientStop(Color.FromArgb(0xFF, 0x30, 0x42, 0x47), 1)
-            }, new Point(0.5, 0), new Point(0.5, 1)));
-            }
-            //listBoxItem.Margin = new Thickness(10, 10, 10, 48);
-            /*listBoxItem.SetResourceReference(SystemColors.HighlightBrushKey, new LinearGradientBrush(new GradientStopCollection
-                            {
-                new GradientStop(Color.FromArgb(0xFF, 0x12, 0x23, 0x29), 0),
-                new GradientStop(Color.FromArgb(0xFF, 0x30, 0x42, 0x47), 1)
-            }, new Point(0.5, 0), new Point(0.5, 1));
-            */
+
+            //if (first)
+            //{
+            //    first = false;
+            //    listBox.Resources.Add(SystemColors.HighlightBrushKey, new LinearGradientBrush(new GradientStopCollection
+            //                {
+            //    new GradientStop(Color.FromArgb(0x00, 0x00, 0x00, 0x00), 0),
+            //    new GradientStop(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF), 0.5),
+            //    new GradientStop(Color.FromArgb(0x00, 0x00, 0x00, 0x00), 1)
+            //}, new Point(0.5, 0), new Point(0.5, 1)));
+            //    listBox.Resources.Add(SystemColors.InactiveSelectionHighlightBrushKey, new LinearGradientBrush(new GradientStopCollection
+            //                {
+            //    new GradientStop(Color.FromArgb(0x00, 0x00, 0x00, 0x00), 0),
+            //    new GradientStop(Color.FromArgb(0xFF, 0x4B, 0x4B, 0x4B), 0.5),
+            //    new GradientStop(Color.FromArgb(0x00, 0x00, 0x00, 0x00), 1)
+            //}, new Point(0.5, 0), new Point(0.5, 1)));
+            //}
 
             itemBase.Height = 40;
 
@@ -182,6 +185,7 @@ namespace CM_Lab2_WPF
             tauTextBox.ToolTip = "Tau";
             tauTextBox.VerticalContentAlignment = VerticalAlignment.Center;
             tauTextBox.Background = style;
+            tauTextBox.KeyUp += new KeyEventHandler(TextBox_KeyUp);
 
             nameLabel.Content = name;
             nameLabel.HorizontalAlignment = HorizontalAlignment.Left;
@@ -233,11 +237,24 @@ namespace CM_Lab2_WPF
             nameMenu.FontSize = 22;
             nameMenu.FontWeight = FontWeights.SemiBold;
 
+            nameMenu.Items.Add("_Text");
+
+            transitions.Items.Add(nameMenu);
+
             itemBase.Children.Add(tauTextBox);
             itemBase.Children.Add(nameLabel);
             itemBase.Children.Add(addButton);
             itemBase.Children.Add(removeButton);
             itemBase.Children.Add(transitions);
+
+            listBoxItem.Background = new LinearGradientBrush(new GradientStopCollection
+            {
+                new GradientStop(Colors.Black, 0),
+                new GradientStop(Colors.Black, 1),
+                new GradientStop(Color.FromArgb(0,0,0,0), 0.1),
+                new GradientStop(Color.FromArgb(0,0,0,0), 0.9)
+            }, new Point(0.5, 0), new Point(0.5, 1));
+
             listBoxItem.Content = itemBase;
         }
 
@@ -299,9 +316,28 @@ namespace CM_Lab2_WPF
 
         private void button_Click_1(object sender, RoutedEventArgs e)
         {
+            double tauInput = 1.2;
             ListBoxItem newItem;
-            CreatingNewDevice("New", 2.0, out newItem);
+            CreatingNewDevice("New", tauInput, out newItem);
             listBox.Items.Add(newItem);
+            Accordance.Add(newItem, new DeviceNode(tauInput));
+        }
+
+        private void TextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                TextBox tb = sender as TextBox;
+                Grid g = tb.Parent as Grid;
+                ListBoxItem lbi = g.Parent as ListBoxItem;
+                double res;
+                if (double.TryParse(tb.Text, out res))
+                {
+                    Accordance[lbi].SetTau(res);
+                }
+                else
+                    tb.Text = Accordance[lbi].GetTau().ToString();
+            }
         }
     }
 }

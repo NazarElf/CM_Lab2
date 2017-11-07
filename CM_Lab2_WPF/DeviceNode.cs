@@ -91,6 +91,17 @@ namespace CM_Lab2_WPF
             }
         }
 
+        public void SetTau(double Tau)
+        {
+            MessageBox.Show("TauChanged");
+            this.tau = Tau;
+        }
+
+        public double GetTau()
+        {
+            return tau;
+        }
+
         /// <summary>
         /// Searching the lowest left time from active cores
         /// </summary>
