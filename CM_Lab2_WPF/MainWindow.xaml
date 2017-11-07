@@ -5,64 +5,93 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CM_Lab2_WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="750">
-    <Grid Background="Black">
-        <ListBox x:Name="listBox" HorizontalAlignment="Left" Margin="10,10,0,48" Width="327">
+        Title="MainWindow" Height="500" Width="758">
+    <Window.Resources>
+        <LinearGradientBrush x:Key="Buttons" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF97A9B0" Offset="1"/>
+            <GradientStop Color="#FFF9F9F9"/>
+        </LinearGradientBrush>
+    </Window.Resources>
+    <Grid Name="BG" Background="Black">
+        <ListBox x:Name="listBox" Margin="10,10,10,48">
             <ListBox.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF122329" Offset="0"/>
                     <GradientStop Color="#FF304247" Offset="1"/>
                 </LinearGradientBrush>
             </ListBox.Background>
-            <ListBoxItem Height="33">
-                <Grid>
-                    <TextBox Margin="107,0,-69,0" BorderThickness="2" BorderBrush="#FF000853">
-                        <TextBox.Background>
-                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                <GradientStop Color="#FF8FACC9" Offset="0"/>
-                                <GradientStop Color="White" Offset="1"/>
-                            </LinearGradientBrush>
-                        </TextBox.Background>
-                    </TextBox>
-                    <Label x:Name="label" Content="Central Processor" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <ListBoxItem Name="CD" Height="40">
+                <ListBoxItem.Resources>
+                    <LinearGradientBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF122329" Offset="0"/>
+                        <GradientStop Color="#FF304247" Offset="1"/>
+                    </LinearGradientBrush>
+                </ListBoxItem.Resources>
+                <Grid Height="40">
+                    <TextBox Text="1,0" 
+                             Margin="127,2,42,2" 
+                             BorderThickness="2" 
+                             BorderBrush="#FF41666C" 
+                             ToolTip="Tau" 
+                             VerticalContentAlignment="Center" 
+                             Background="{DynamicResource Buttons}"/>
+                    <Label x:Name="label" 
+                           Content="Central Processor" 
+                           HorizontalAlignment="Left" 
+                           VerticalAlignment="Top" Height="36"
+                           VerticalContentAlignment="Center" 
+                           HorizontalContentAlignment="Center" 
+                           Foreground="Black" FontFamily="Consolas" 
+                           FontWeight="Bold" Margin="0,2,0,0" 
+                           Width="122">
                         <Label.Background>
                             <RadialGradientBrush>
                                 <GradientStop Color="#00000000" Offset="1"/>
-                                <GradientStop Color="White" Offset="0.4"/>
-                                <GradientStop Color="#9200FFC5" Offset="0.583"/>
+                                <GradientStop Color="#9200FFC5" Offset="0.66"/>
+                                <GradientStop Color="White" Offset="0.49"/>
                             </RadialGradientBrush>
                         </Label.Background>
                     </Label>
-
+                    <Button Margin="624,0,-456,0" Background="{DynamicResource Buttons}">
+                        <TextBlock TextWrapping="Wrap"
+                                   Text="Add Transition" />
+                    </Button>
+                    <Button Margin="532,0,-364,0" Background="{DynamicResource Buttons}">
+                        <TextBlock TextWrapping="Wrap"
+                                   Text="Remove Transition" Height="30" Width="77" TextAlignment="Center" FontSize="11" />
+                    </Button>
+                    <Menu HorizontalAlignment="Left" Margin="218,2,-272,0" VerticalAlignment="Top" Width="309" Height="36" Background="{DynamicResource Buttons}">
+                        <MenuItem Header="Transitions" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Width="309" Height="36" FontSize="22" FontWeight="SemiBold">
+                            <Grid Width="320">
+                                <Label x:Name="l2" 
+                                        Content="Central Processor" 
+                                        HorizontalAlignment="Left" 
+                                        VerticalAlignment="Top" Height="30"
+                                        VerticalContentAlignment="Center" 
+                                        HorizontalContentAlignment="Center" 
+                                       FontSize="12"
+                                        Foreground="Black" FontFamily="Consolas" FontWeight="Bold">
+                                    <Label.Background>
+                                        <RadialGradientBrush>
+                                            <GradientStop Color="#00000000" Offset="1"/>
+                                            <GradientStop Color="White" Offset="0.49"/>
+                                            <GradientStop Color="#9200FFC5" Offset="0.66"/>
+                                        </RadialGradientBrush>
+                                    </Label.Background>
+                                </Label>
+                                <Slider x:Name="Slider1" Margin="124,5,20,5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Maximum="100" IsSnapToTickEnabled="True" Value="100"/>
+                                <TextBox x:Name="CP_SliderTextBox"  Margin="305,5,-39,5" Text="1.0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="12" IsEnabled="False"/>
+                                <CheckBox Margin="364,9,-364,-5" ToolTip="Locked" IsEnabled="False" IsChecked="True"/>
+                            </Grid>
+                        </MenuItem>
+                    </Menu>
                 </Grid>
             </ListBoxItem>
+            <!--<Slider Name="SliderTry" Width="219" Maximum="100"/>-->
         </ListBox>
         <Button Content="TEMP START" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="616,429,10,0" Height="30" Width="116" FontSize="20" Click="Button_Click" />
-        <Button x:Name="button" Content="Button" Margin="10,0,0,10" HorizontalAlignment="Left" Width="75" Height="33" VerticalAlignment="Bottom">
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF97A9B0" Offset="1"/>
-                    <GradientStop Color="#FFF9F9F9"/>
-                </LinearGradientBrush>
-            </Button.Background>
-        </Button>
-        <Button x:Name="button_Copy" Content="Button" Margin="90,0,0,10" HorizontalAlignment="Left" Width="75" Height="33" VerticalAlignment="Bottom">
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF97A9B0" Offset="1"/>
-                    <GradientStop Color="#FFF9F9F9"/>
-                </LinearGradientBrush>
-            </Button.Background>
-        </Button>
-        <Button x:Name="button_Copy1" Content="Button" Margin="170,0,0,10" HorizontalAlignment="Left" Width="75" Height="33" VerticalAlignment="Bottom">
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF97A9B0" Offset="1"/>
-                    <GradientStop Color="#FFF9F9F9"/>
-                </LinearGradientBrush>
-            </Button.Background>
-        </Button>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="398,29,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="371,83,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="button" Content="Add" Margin="10,0,0,10" HorizontalAlignment="Left" Width="75" Height="33" VerticalAlignment="Bottom" Background="{DynamicResource Buttons}" Click="button_Click_1"/>
+        <Button x:Name="button_Copy" Content="Button" Margin="90,0,0,10" HorizontalAlignment="Left" Width="75" Height="33" VerticalAlignment="Bottom" Background="{DynamicResource Buttons}"/>
+        <Button x:Name="button_Copy1" Content="Button" Margin="170,0,0,10" HorizontalAlignment="Left" Width="75" Height="33" VerticalAlignment="Bottom" Background="{DynamicResource Buttons}"/>
     </Grid>
 </Window>
