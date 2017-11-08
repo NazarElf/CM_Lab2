@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CM_Lab2_WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="758">
+        Title="MainWindow" Height="500" Width="591">
     <Window.Resources>
         <LinearGradientBrush x:Key="Buttons" EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#CC97A9B0" Offset="1"/>
@@ -20,16 +20,15 @@
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
-            <Setter Property="BorderBrush" Value="LightGoldenrodYellow"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="Overlay" CornerRadius="2" BorderThickness="1.5">
-                            <ContentPresenter/>
+                        <Border x:Name="Overlay" CornerRadius="2" BorderThickness="2">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" Margin="{TemplateBinding Padding}" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsEnabled" Value="true">
-                                <Setter Property="BorderBrush" TargetName="Overlay" Value="Black"/>
+                                <Setter Property="BorderBrush" TargetName="Overlay" Value="#FF41666C"/>
                                 <Setter Property="Background" TargetName="Overlay" Value="{DynamicResource Buttons}"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="true">
@@ -60,7 +59,7 @@
         </Style>-->
     </Window.Resources>
     <Grid Name="BG" Background="Black">
-        <ListBox x:Name="listBox" Margin="10,10,10,48" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+        <ListBox x:Name="listBox" Padding="0" Margin="10,10,10,48" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden">
             <ListBox.Resources>
                 <!--<SolidColorBrush Color="Black" x:Key="{SystemColors.InactiveBorderBrushKey}"/>-->
                 <LinearGradientBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" EndPoint="0.5,1" StartPoint="0.5,0">
@@ -84,7 +83,7 @@
                     <GradientStop Color="#FF304247" Offset="1"/>
                 </LinearGradientBrush>
             </ListBox.Background>
-            <ListBoxItem Name="CD" Height="40">
+            <ListBoxItem Name="CD" Height="40" Padding="0" Width="550">
                 <ListBoxItem.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="Black" Offset="0"/>
@@ -93,14 +92,7 @@
                         <GradientStop Color="#00000000" Offset="0.9"/>
                     </LinearGradientBrush>
                 </ListBoxItem.Background>
-                <Grid Height="40" Width="719">
-                    <TextBox Text="1" 
-                             Margin="127,2,506,2" 
-                             BorderThickness="2" 
-                             BorderBrush="#FF41666C" 
-                             ToolTip="Tau" 
-                             VerticalContentAlignment="Center" 
-                             Background="{DynamicResource Buttons}" KeyUp="TextBox_KeyUp" UseLayoutRounding="True"/>
+                <StackPanel Orientation="Horizontal" Height="40" >
                     <Label x:Name="label" 
                            Content="Central Processor" 
                            HorizontalAlignment="Left" 
@@ -108,7 +100,7 @@
                            VerticalContentAlignment="Center" 
                            HorizontalContentAlignment="Center" 
                            Foreground="Black" FontFamily="Consolas" 
-                           FontWeight="Bold" Margin="0,2,0,0" 
+                           FontWeight="Bold"
                            Width="122">
                         <Label.Background>
                             <RadialGradientBrush>
@@ -118,17 +110,20 @@
                             </RadialGradientBrush>
                         </Label.Background>
                     </Label>
-                    <Button Margin="624,0,0,0">
-                        <TextBlock TextWrapping="Wrap"
-                                   Text="Add Transition" />
-                    </Button>
-                    <Button Margin="532,0,95,0" Background="{DynamicResource Buttons}" UseLayoutRounding="False">
-                        <TextBlock TextWrapping="Wrap"
-                                   Text="Remove Transition" Height="30" Width="77" TextAlignment="Center" FontSize="11" />
-                    </Button>
-                    <Menu HorizontalAlignment="Left" Margin="218,2,-272,0" VerticalAlignment="Top" Width="309" Height="36" Background="{DynamicResource Buttons}" BorderBrush="#FF41666C" BorderThickness="2" UseLayoutRounding="True">
-                        <MenuItem Header="Transitions" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Width="309" Height="36" FontSize="22" FontWeight="SemiBold">
-                            <Grid Width="320">
+                    <Separator Width="4" Background="#00A0A0A0"/>
+                    <TextBox Text="1" 
+                             Width="80"
+                             Height="26"
+                             BorderThickness="2" 
+                             BorderBrush="#FF41666C" 
+                             ToolTip="Tau" 
+                             Margin="0,4,0,8"
+                             VerticalContentAlignment="Center" 
+                             Background="{DynamicResource Buttons}" KeyUp="TextBox_KeyUp" UseLayoutRounding="True"/>
+                    <Separator Width="4" Background="#00A0A0A0"/>
+                    <Menu Margin="0,3,0,0" Padding="0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="78" Height="32" Background="{DynamicResource Buttons}" BorderBrush="#FF41666C" BorderThickness="2" UseLayoutRounding="True">
+                        <MenuItem Header="Transitions" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Width="74" Height="28" FontWeight="SemiBold">
+                            <StackPanel Orientation="Horizontal" Width="361">
                                 <Label x:Name="l2" 
                                         Content="Central Processor" 
                                         HorizontalAlignment="Left" 
@@ -145,13 +140,20 @@
                                         </RadialGradientBrush>
                                     </Label.Background>
                                 </Label>
-                                <Slider x:Name="Slider1" Margin="124,5,20,5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Maximum="100" IsSnapToTickEnabled="True" Value="100"/>
-                                <TextBox x:Name="CP_SliderTextBox"  Margin="305,5,-39,5" Text="1.0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="12" IsEnabled="False"/>
-                                <CheckBox Margin="364,9,-364,-5" ToolTip="Locked" IsEnabled="False" IsChecked="True"/>
-                            </Grid>
+                                <Separator Background="#00000000" Width="3"/>
+                                <Slider x:Name="Slider1" Margin="0,5,0,5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Maximum="100" IsSnapToTickEnabled="True" Width="150" Value="100"/>
+                                <Separator Background="#00000000" Width="3"/>
+                                <TextBox x:Name="CP_SliderTextBox"  Margin="0,5,0,5" Text="1.0" VerticalContentAlignment="Center" Width="60" HorizontalContentAlignment="Center" FontSize="12" IsEnabled="False"/>
+                                <Separator Background="#00000000" Width="3"/>
+                                <CheckBox Margin="0,5,0,5" VerticalContentAlignment="Center" ToolTip="Locked" IsEnabled="False" IsChecked="True"/>
+                            </StackPanel>
                         </MenuItem>
                     </Menu>
-                </Grid>
+                    <Separator Width="4" Background="#00A0A0A0"/>
+                    <Button Margin="0,5,0,5" HorizontalContentAlignment="Center" Padding="4.5" VerticalContentAlignment="Center" Content="Add Transition"/>
+                    <Separator Width="4" Background="#00A0A0A0"/>
+                    <Button Margin="0,5,0,5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Remove Transitions" Padding="4"/>
+                </StackPanel>
             </ListBoxItem>
             <!--<Slider Name="SliderTry" Width="219" Maximum="100"/>-->
         </ListBox>

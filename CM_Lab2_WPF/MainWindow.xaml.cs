@@ -318,15 +318,15 @@ namespace CM_Lab2_WPF
 
         private void button_Click_1(object sender, RoutedEventArgs e)
         {
-            AddElementWindow aew = new AddElementWindow();
+            /*AddElementWindow aew = new AddElementWindow();
             aew.Show();
             aew.Owner = this;
-            this.IsEnabled = false;
-            /*double tauInput = 1.2;
+            this.IsEnabled = false;*/
+            double tauInput = 1.2;
             ListBoxItem newItem;
             CreatingNewDevice("New", tauInput, out newItem);
             listBox.Items.Add(newItem);
-            Accordance.Add(newItem, new DeviceNode(tauInput));*/
+            Accordance.Add(newItem, new DeviceNode(tauInput));
         }
 
         private void TextBox_KeyUp(object sender, KeyEventArgs e)
