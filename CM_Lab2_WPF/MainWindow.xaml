@@ -12,18 +12,25 @@
             <GradientStop Color="#CCF9F9F9"/>
         </LinearGradientBrush>
         <Style TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="Azure"/>
+            <Setter Property="Background" >
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#CC97A9B0" Offset="1"/>
+                        <GradientStop Color="#CCF9F9F9"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
             <Setter Property="BorderBrush" Value="LightGoldenrodYellow"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="Overlay" CornerRadius="2" BorderThickness="2">
+                        <Border x:Name="Overlay" CornerRadius="2" BorderThickness="1.5">
                             <ContentPresenter/>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsDefault" Value="true">
-                                <Setter Property="BorderBrush" TargetName="Overlay" Value="DarkGreen"/>
-                                <Setter Property="Background" TargetName="Overlay" Value="Violet"/>
+                            <Trigger Property="IsEnabled" Value="true">
+                                <Setter Property="BorderBrush" TargetName="Overlay" Value="Black"/>
+                                <Setter Property="Background" TargetName="Overlay" Value="{DynamicResource Buttons}"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="true">
                                 <Setter Property="Background" TargetName="Overlay" Value="Lime"/>
@@ -86,9 +93,9 @@
                         <GradientStop Color="#00000000" Offset="0.9"/>
                     </LinearGradientBrush>
                 </ListBoxItem.Background>
-                <Grid Height="40">
+                <Grid Height="40" Width="719">
                     <TextBox Text="1" 
-                             Margin="127,2,42,2" 
+                             Margin="127,2,506,2" 
                              BorderThickness="2" 
                              BorderBrush="#FF41666C" 
                              ToolTip="Tau" 
@@ -111,11 +118,11 @@
                             </RadialGradientBrush>
                         </Label.Background>
                     </Label>
-                    <Button Margin="624,0,-456,0">
+                    <Button Margin="624,0,0,0">
                         <TextBlock TextWrapping="Wrap"
                                    Text="Add Transition" />
                     </Button>
-                    <Button Margin="532,0,-364,0" Background="{DynamicResource Buttons}" UseLayoutRounding="False">
+                    <Button Margin="532,0,95,0" Background="{DynamicResource Buttons}" UseLayoutRounding="False">
                         <TextBlock TextWrapping="Wrap"
                                    Text="Remove Transition" Height="30" Width="77" TextAlignment="Center" FontSize="11" />
                     </Button>
