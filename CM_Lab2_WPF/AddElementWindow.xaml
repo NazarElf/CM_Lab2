@@ -5,23 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CM_Lab2_WPF"
         mc:Ignorable="d"
-        Title="AddElementWindow" Height="70" Width="279" WindowStyle="None" BorderThickness="0" ResizeMode="NoResize" Topmost="True" Cursor="Pen" WindowStartupLocation="Manual">
+        Title="AddElementWindow" 
+        Height="70" 
+        Width="279" 
+        WindowStyle="None" 
+        BorderThickness="0" 
+        ResizeMode="NoResize" 
+        Topmost="True" 
+        Cursor="Pen" 
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStartupLocation="Manual">
     <Window.Resources>
         <LinearGradientBrush x:Key="Elements" EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#CC97A9B0" Offset="1"/>
             <GradientStop Color="#CCF9F9F9"/>
         </LinearGradientBrush>
     </Window.Resources>
-    <Grid>
-        <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FF122329" Offset="0"/>
-                <GradientStop Color="#FF304247" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
-        <TextBox Background ="{DynamicResource Elements}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Processing" VerticalAlignment="Top" Width="113" Margin="58,10,0,0"/>
+    <Canvas>
+    <Path Stroke="White" StrokeThickness="1">
+            <Path.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF122329" Offset="0"/>
+                    <GradientStop Color="#FF304247" Offset="1"/>
+                </LinearGradientBrush>
+            </Path.Fill>
+            <Path.Data>
+                <RectangleGeometry Rect="0,0,279,70" RadiusX="10" RadiusY="10"/>
+            </Path.Data>
+        </Path>
+        <Grid MouseDown="Grid_MouseDown" Background="Transparent">
+            <TextBox Background ="{DynamicResource Elements}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Processing" VerticalAlignment="Top" Width="113" Margin="58,10,0,0"/>
         <Label Foreground="Wheat" Content="Name: " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="23"/>
-        <TextBox Background ="{DynamicResource ResourceKey=Elements}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="1,0" VerticalAlignment="Top" Width="58" Margin="211,10,0,0"/>
+        <TextBox Background ="{DynamicResource ResourceKey=Elements}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="1,0" VerticalAlignment="Top" Width="58" Margin="211,10,0,0" LostFocus="TextBox_LostFocus"/>
         <Label Foreground="Wheat" Content="Tau: " HorizontalAlignment="Left" Margin="176,10,0,0" VerticalAlignment="Top" Height="23"/>
         <Button Background ="{DynamicResource ResourceKey=Elements}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="126" Margin="10,38,0,0" Click="Apply_ButtonClick">
             <StackPanel Orientation="Horizontal">
@@ -92,4 +108,5 @@
             </StackPanel>
         </Button>
     </Grid>
+    </Canvas>
 </Window>

@@ -11,7 +11,81 @@
             <GradientStop Color="#CC97A9B0" Offset="1"/>
             <GradientStop Color="#CCF9F9F9"/>
         </LinearGradientBrush>
+        <LinearGradientBrush x:Key="TransperentButtons" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF97A9B0" Offset="1"/>
+            <GradientStop Color="#FFF9F9F9"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="ButtonsClicked" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF97A9B0"/>
+            <GradientStop Color="#FFF9F9F9" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="listBoxBG" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF122329" Offset="0"/>
+            <GradientStop Color="#FF304247" Offset="1"/>
+        </LinearGradientBrush>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                        <Border Name="Border"
+                                CornerRadius="3"
+                                Padding="2"
+                                BorderThickness="2"
+                                Background="{StaticResource Buttons}" BorderBrush="#FF41666C">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                         Value="Green" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="ReadOnly">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                         Value="Red" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="MouseOver" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ScrollViewer Margin="0"
+                        x:Name="PART_ContentHost" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="true">
+                                <Setter Property="BorderBrush" TargetName="Border" Value="#FF41666C"/>
+                                <Setter Property="Background" TargetName="Border" Value="{DynamicResource Buttons}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="Border" Value="{DynamicResource TransperentButtons}"/>
+                                <Setter Property="BorderBrush" TargetName="Border" Value="#FF57B1BF"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#FF41666C"/>
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Buttons}"/>
+                                <Setter Property="Foreground" Value="Gray"/>
+                                <Setter TargetName="Border" Property="Effect">
+                                    <Setter.Value>
+                                        <BlurEffect Radius="2"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style TargetType="{x:Type Button}">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="Background" >
                 <Setter.Value>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -23,8 +97,8 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="Overlay" CornerRadius="2" BorderThickness="2">
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" Margin="{TemplateBinding Padding}" />
+                        <Border x:Name="Overlay" CornerRadius="3" BorderThickness="2">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsEnabled" Value="true">
@@ -32,34 +106,72 @@
                                 <Setter Property="Background" TargetName="Overlay" Value="{DynamicResource Buttons}"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" TargetName="Overlay" Value="Lime"/>
-                                <Setter Property="BorderBrush" TargetName="Overlay" Value="Green"/>
+                                <Setter Property="Background" TargetName="Overlay" Value="{DynamicResource TransperentButtons}"/>
+                                <Setter Property="BorderBrush" TargetName="Overlay" Value="#FF57B1BF"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Background" TargetName="Overlay" Value="Blue"/>
-                                <Setter Property="BorderBrush" TargetName="Overlay" Value="AliceBlue"/>
+                                <Setter Property="Background" TargetName="Overlay" Value="{DynamicResource ButtonsClicked}"/>
+                                <Setter Property="BorderBrush" TargetName="Overlay" Value="#FF79EDFF"/>
                             </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter TargetName="Overlay" Property="Background" Value="Red"/>
-                                <Setter TargetName="Overlay" Property="BorderBrush" Value="Black"/>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Overlay" Property="BorderBrush" Value="#FF41666C"/>
+                                <Setter TargetName="Overlay" Property="Background" Value="{DynamicResource Buttons}"/>
+                                <Setter Property="Foreground" Value="Gray"/>
+                                <Setter TargetName="Overlay" Property="Effect">
+                                    <Setter.Value>
+                                        <BlurEffect Radius="2"/>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        <!--<Style TargetType="Button" x:Key="MyButton2">
-            <Setter Property="Background" Value="{StaticResource Buttons}" />
-            <Style.Triggers>
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="Green"/>
-                    <Setter Property="Foreground" Value="DeepPink"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>-->
+        <Style TargetType="{x:Type ListBox}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF122329" Offset="0"/>
+                        <GradientStop Color="#FF304247" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
+                        <Border Name="lbOverlay"
+                                BorderThickness="1"
+                                CornerRadius="8" Background="{DynamicResource listBoxBG}">
+                            <Border.BorderBrush>
+                                <SolidColorBrush Color="#FF888888" />
+                            </Border.BorderBrush>
+                            <ScrollViewer Margin="0"
+                        Focusable="false">
+                                <StackPanel Margin="2"
+                        IsItemsHost="True" />
+                            </ScrollViewer>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="true">
+                                <Setter TargetName="lbOverlay" Property="BorderBrush" Value="Gray"/>
+                                <Setter TargetName="lbOverlay" Property="Background" Value="{DynamicResource listBoxBG}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="lbOverlay" Property="Effect">
+                                    <Setter.Value>
+                                        <BlurEffect Radius="2"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid Name="BG" Background="Black">
-        <ListBox x:Name="listBox" Padding="0" Margin="10,10,10,48" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+        <ListBox x:Name="listBox" Padding="0" Margin="10,10,10,48" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" Background="{DynamicResource listBoxBG}">
             <ListBox.Resources>
                 <!--<SolidColorBrush Color="Black" x:Key="{SystemColors.InactiveBorderBrushKey}"/>-->
                 <LinearGradientBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" EndPoint="0.5,1" StartPoint="0.5,0">
@@ -77,13 +189,7 @@
                     <GradientStop Color="#FFFFFFFF" Offset="1"/>
                 </LinearGradientBrush>
             </ListBox.Resources>
-            <ListBox.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF122329" Offset="0"/>
-                    <GradientStop Color="#FF304247" Offset="1"/>
-                </LinearGradientBrush>
-            </ListBox.Background>
-            <ListBoxItem Name="CD" Height="40" Padding="0" Width="550">
+            <ListBoxItem Name="CD" Height="40" Padding="0">
                 <ListBoxItem.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="Black" Offset="0"/>
@@ -95,8 +201,7 @@
                 <StackPanel Orientation="Horizontal" Height="40" >
                     <Label x:Name="label" 
                            Content="Central Processor" 
-                           HorizontalAlignment="Left" 
-                           VerticalAlignment="Top" Height="36"
+                           HorizontalAlignment="Left"
                            VerticalContentAlignment="Center" 
                            HorizontalContentAlignment="Center" 
                            Foreground="Black" FontFamily="Consolas" 
@@ -113,15 +218,13 @@
                     <Separator Width="4" Background="#00A0A0A0"/>
                     <TextBox Text="1" 
                              Width="80"
-                             Height="26"
                              BorderThickness="2" 
                              BorderBrush="#FF41666C" 
                              ToolTip="Tau" 
-                             Margin="0,4,0,8"
-                             VerticalContentAlignment="Center" 
-                             Background="{DynamicResource Buttons}" KeyUp="TextBox_KeyUp" UseLayoutRounding="True"/>
+                             Margin="0,5"
+                             VerticalContentAlignment="Center" KeyUp="TextBox_KeyUp"/>
                     <Separator Width="4" Background="#00A0A0A0"/>
-                    <Menu Margin="0,3,0,0" Padding="0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="78" Height="32" Background="{DynamicResource Buttons}" BorderBrush="#FF41666C" BorderThickness="2" UseLayoutRounding="True">
+                    <Menu Margin="0,5" Padding="0" HorizontalAlignment="Left" Width="78" Background="{DynamicResource Buttons}" BorderBrush="#FF41666C" BorderThickness="2">
                         <MenuItem Header="Transitions" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Width="74" Height="28" FontWeight="SemiBold">
                             <StackPanel Orientation="Horizontal" Width="361">
                                 <Label x:Name="l2" 
@@ -152,14 +255,14 @@
                     <Separator Width="4" Background="#00A0A0A0"/>
                     <Button Margin="0,5,0,5" HorizontalContentAlignment="Center" Padding="4.5" VerticalContentAlignment="Center" Content="Add Transition"/>
                     <Separator Width="4" Background="#00A0A0A0"/>
-                    <Button Margin="0,5,0,5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Remove Transitions" Padding="4"/>
+                    <Button Margin="0,5,0,5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Remove Transition" Padding="4"/>
                 </StackPanel>
             </ListBoxItem>
             <!--<Slider Name="SliderTry" Width="219" Maximum="100"/>-->
         </ListBox>
         <Button Content="TEMP START" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="616,429,10,0" Height="30" Width="116" FontSize="20" Click="Button_Click" />
-        <Button x:Name="button" Content="Add" Margin="10,0,0,10" HorizontalAlignment="Left" Width="75" Height="33" VerticalAlignment="Bottom" Background="{DynamicResource Buttons}" Click="button_Click_1"/>
-        <Button x:Name="button_Copy" Content="Button" Margin="90,0,0,10" HorizontalAlignment="Left" Width="75" Height="33" VerticalAlignment="Bottom" Background="{DynamicResource Buttons}"/>
-        <Button x:Name="button_Copy1" Content="Button" Margin="170,0,0,10" HorizontalAlignment="Left" Width="75" Height="33" VerticalAlignment="Bottom" Background="{DynamicResource Buttons}"/>
+        <Button x:Name="button" Content="Add" Margin="10,0,0,10" HorizontalAlignment="Left" Width="75" Height="33" VerticalAlignment="Bottom" Click="button_Click_1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Button x:Name="button_Copy" Content="Button" Margin="90,0,0,10" HorizontalAlignment="Left" Width="75" Height="33" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Button x:Name="button_Copy1" Content="Button" Margin="170,0,0,10" HorizontalAlignment="Left" Width="75" Height="33" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
     </Grid>
 </Window>

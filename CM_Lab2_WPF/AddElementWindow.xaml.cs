@@ -27,13 +27,28 @@ namespace CM_Lab2_WPF
 
         private void Apply_ButtonClick(object sender, RoutedEventArgs e)
         {
-
+            MainWindow mw = Owner as MainWindow;
+            //mw.InvokeCreation()
         }
 
         private void Deny_ButtonClick(object sender, RoutedEventArgs e)
         {
             Owner.IsEnabled = true;
             this.Close();
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            double res;
+            if(!double.TryParse(tb.Text, out res))
+                MessageBox.Show("Incorect inputing tau. Try to input double value", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            tb.Text = "1,0";
         }
     }
 }

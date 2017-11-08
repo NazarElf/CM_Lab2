@@ -145,20 +145,30 @@ namespace CM_Lab2_WPF
             StartProcessing(CP, NB, OM, SB, CD);
         }
 
+        public void InvokeCreation(string name, double tau)
+        {
+            ListBoxItem lbi;
+            CreatingNewDevice(name, tau, out lbi);
+            listBox.Items.Add(lbi);
+            Accordance.Add(lbi, new DeviceNode(tau));
+        }
+
         private void CreatingNewDevice(string name, double tau, out ListBoxItem listBoxItem)
         {
             listBoxItem = new ListBoxItem();
-            Grid itemBase = new Grid();
-            TextBox tauTextBox = new TextBox();
+            StackPanel itemBase = new StackPanel();
             Label nameLabel = new Label();
+            TextBox tauTextBox = new TextBox();
             Button addButton = new Button();
                 TextBlock addTextBlock = new TextBlock();
             Button removeButton = new Button();
                 TextBlock removeTextBlock = new TextBlock();
             Menu transitions = new Menu();
                 MenuItem nameMenu = new MenuItem();
-            Brush style = this.FindResource("Buttons") as LinearGradientBrush;
+            Brush background = this.FindResource("Buttons") as LinearGradientBrush;
 
+            listBoxItem.Padding = new Thickness(0);
+            listBoxItem.Height = 40;
 
             //if (first)
             //{
@@ -178,76 +188,78 @@ namespace CM_Lab2_WPF
             //}
 
             itemBase.Height = 40;
-
-            tauTextBox.Text = tau.ToString();
-            tauTextBox.Margin = new Thickness(127, 2, 42, 2);
-            tauTextBox.BorderThickness = new Thickness(2);
-            Color c = new Color(); c.A = 0xFF; c.R = 0x41; c.G = 0x66; c.B = 0x6C;
-            tauTextBox.BorderBrush = new SolidColorBrush(c);
-            tauTextBox.ToolTip = "Tau";
-            tauTextBox.VerticalContentAlignment = VerticalAlignment.Center;
-            tauTextBox.Background = style;
-            tauTextBox.KeyUp += new KeyEventHandler(TextBox_KeyUp);
+            itemBase.Orientation = Orientation.Horizontal;
 
             nameLabel.Content = name;
             nameLabel.HorizontalAlignment = HorizontalAlignment.Left;
-            nameLabel.VerticalAlignment = VerticalAlignment.Top;
             nameLabel.VerticalContentAlignment = VerticalAlignment.Center;
             nameLabel.HorizontalContentAlignment = HorizontalAlignment.Center;
-            nameLabel.Height = 36;
-            nameLabel.Margin = new Thickness(0, 2, 0, 0);
             nameLabel.Width = 122;
             nameLabel.Foreground = Brushes.Black;
             nameLabel.FontFamily = new FontFamily("Consolas");
             nameLabel.FontWeight = FontWeights.Bold;
             Color randomColor = HsvToRgb(r.Next(360), 100, 100);
-            GradientStopCollection backGroundCollection = new GradientStopCollection
+            Brush labelEffectBackground = new RadialGradientBrush(new GradientStopCollection
             {
                 new GradientStop(Color.FromArgb(0,0,0,0), 1),
                 new GradientStop(Colors.White, 0.49),
                 new GradientStop(randomColor, 0.66)
-            };
-            Brush labelEffectBackground = new RadialGradientBrush(backGroundCollection);
+            });
             nameLabel.Background = labelEffectBackground;
 
-            addButton.Margin = new Thickness(624, 0, -456, 0);
-            addButton.Background = style;
-            addTextBlock.TextWrapping = TextWrapping.Wrap;
-            addTextBlock.Text = "Add Transition";
-            addButton.Content = addTextBlock;
+            tauTextBox.Text = tau.ToString();
+            tauTextBox.Width = 80;
+            tauTextBox.BorderThickness = new Thickness(2);
+            tauTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF,0x41,0x66,0x6C));
+            tauTextBox.ToolTip = "Tau";
+            tauTextBox.Margin = new Thickness(0, 7, 0, 7);
+            tauTextBox.VerticalContentAlignment = VerticalAlignment.Center;
+            tauTextBox.Background = background;
+            tauTextBox.KeyUp += new KeyEventHandler(TextBox_KeyUp);
 
-            removeButton.Margin = new Thickness(532, 0, -364, 0);
-            removeButton.Background = style;
-            removeTextBlock.TextWrapping = TextWrapping.Wrap;
-            removeTextBlock.Text = "Remove Transition";
-            removeTextBlock.Height = 30;
-            removeTextBlock.Width = 77;
-            removeTextBlock.TextAlignment = TextAlignment.Center;
-            removeTextBlock.FontSize = 11;
-            removeButton.Content = removeTextBlock;
-
+            transitions.Margin = new Thickness(0, 4, 0, 4);
+            transitions.Padding = new Thickness(0);
             transitions.HorizontalAlignment = HorizontalAlignment.Left;
-            transitions.Margin = new Thickness(218, 2, -272, 0);
-            transitions.VerticalAlignment = VerticalAlignment.Top;
-            transitions.Width = 309; transitions.Height = 36;
-            transitions.Background = style;
+            transitions.Width = 78; 
+            transitions.Background = background;
+            transitions.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0x41, 0x66, 0x6C));
+            transitions.BorderThickness = new Thickness(2);
+            //transitions.Height = 36;
 
             nameMenu.Header = "Transitions";
             nameMenu.HorizontalContentAlignment = HorizontalAlignment.Stretch;
             nameMenu.VerticalContentAlignment = VerticalAlignment.Stretch;
-            nameMenu.Width = 309; nameMenu.Height = 36;
-            nameMenu.FontSize = 22;
+            nameMenu.Width = 74; nameMenu.Height = 28;
             nameMenu.FontWeight = FontWeights.SemiBold;
+
+            addButton.Margin = new Thickness(0, 5, 0, 5);
+            addButton.HorizontalAlignment = HorizontalAlignment.Center;
+            addButton.Padding = new Thickness(4.5);
+            addButton.VerticalContentAlignment = VerticalAlignment.Center;
+            addButton.Content = "Add Transition";
+
+            removeButton.Margin = new Thickness(0, 5, 0, 5);
+            removeButton.HorizontalAlignment = HorizontalAlignment.Center;
+            removeButton.Padding = new Thickness(4);
+            removeButton.VerticalContentAlignment = VerticalAlignment.Center;
+            removeButton.Content = "Remove Transition";
 
             nameMenu.Items.Add("_Text");
 
             transitions.Items.Add(nameMenu);
 
-            itemBase.Children.Add(tauTextBox);
+            Separator s0 = new Separator(), s1 = new Separator(), s2 = new Separator(), s3 = new Separator();
+            s0.Width = s1.Width = s2.Width = s3.Width = 4;
+            s0.Background = s1.Background = s2.Background = s3.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
             itemBase.Children.Add(nameLabel);
-            itemBase.Children.Add(addButton);
-            itemBase.Children.Add(removeButton);
+            itemBase.Children.Add(s0);
+            itemBase.Children.Add(tauTextBox);
+            itemBase.Children.Add(s1);
             itemBase.Children.Add(transitions);
+            itemBase.Children.Add(s2);
+            itemBase.Children.Add(addButton);
+            itemBase.Children.Add(s3);
+            itemBase.Children.Add(removeButton);
 
             listBoxItem.Background = new LinearGradientBrush(new GradientStopCollection
             {
@@ -318,15 +330,15 @@ namespace CM_Lab2_WPF
 
         private void button_Click_1(object sender, RoutedEventArgs e)
         {
-            /*AddElementWindow aew = new AddElementWindow();
+            AddElementWindow aew = new AddElementWindow();
             aew.Show();
             aew.Owner = this;
-            this.IsEnabled = false;*/
-            double tauInput = 1.2;
+            this.IsEnabled = false;
+            /*double tauInput = 1.2;
             ListBoxItem newItem;
             CreatingNewDevice("New", tauInput, out newItem);
             listBox.Items.Add(newItem);
-            Accordance.Add(newItem, new DeviceNode(tauInput));
+            Accordance.Add(newItem, new DeviceNode(tauInput));*/
         }
 
         private void TextBox_KeyUp(object sender, KeyEventArgs e)
