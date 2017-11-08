@@ -84,6 +84,8 @@ namespace CM_Lab2_WPF
 
         Dictionary<ListBoxItem, DeviceNode> Accordance = new Dictionary<ListBoxItem, DeviceNode>();
         Random r = new Random();
+        public static double connectorDouble;
+        public static string connectorString;
 
         void StartProcessing(params DeviceNode[] Nodes)
         {
@@ -316,11 +318,15 @@ namespace CM_Lab2_WPF
 
         private void button_Click_1(object sender, RoutedEventArgs e)
         {
-            double tauInput = 1.2;
+            AddElementWindow aew = new AddElementWindow();
+            aew.Show();
+            aew.Owner = this;
+            this.IsEnabled = false;
+            /*double tauInput = 1.2;
             ListBoxItem newItem;
             CreatingNewDevice("New", tauInput, out newItem);
             listBox.Items.Add(newItem);
-            Accordance.Add(newItem, new DeviceNode(tauInput));
+            Accordance.Add(newItem, new DeviceNode(tauInput));*/
         }
 
         private void TextBox_KeyUp(object sender, KeyEventArgs e)
