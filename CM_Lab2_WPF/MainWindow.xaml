@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CM_Lab2_WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="591">
+        Title="MainWindow" Height="500" Width="619.667">
     <Window.Resources>
         <LinearGradientBrush x:Key="Buttons" EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#CC97A9B0" Offset="1"/>
@@ -23,7 +23,7 @@
             <GradientStop Color="#FF122329" Offset="0"/>
             <GradientStop Color="#FF304247" Offset="1"/>
         </LinearGradientBrush>
-        <Style TargetType="{x:Type TextBox}">
+        <Style TargetType="{x:Type TextBox}" x:Key="TextBoxesInList">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TextBoxBase}">
@@ -189,7 +189,7 @@
                     <GradientStop Color="#FFFFFFFF" Offset="1"/>
                 </LinearGradientBrush>
             </ListBox.Resources>
-            <ListBoxItem Name="CD" Height="40" Padding="0">
+            <ListBoxItem Name="CD" Height="40" Padding="0" Loaded="CD_Loaded">
                 <ListBoxItem.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="Black" Offset="0"/>
@@ -206,7 +206,7 @@
                            HorizontalContentAlignment="Center" 
                            Foreground="Black" FontFamily="Consolas" 
                            FontWeight="Bold"
-                           Width="122">
+                           Width="200">
                         <Label.Background>
                             <RadialGradientBrush>
                                 <GradientStop Color="#00000000" Offset="1"/>
@@ -217,6 +217,7 @@
                     </Label>
                     <Separator Width="4" Background="#00A0A0A0"/>
                     <TextBox Text="1" 
+                             Style="{DynamicResource TextBoxesInList}"
                              Width="80"
                              BorderThickness="2" 
                              BorderBrush="#FF41666C" 
@@ -226,11 +227,12 @@
                     <Separator Width="4" Background="#00A0A0A0"/>
                     <Menu Margin="0,5" Padding="0" HorizontalAlignment="Left" Width="78" Background="{DynamicResource Buttons}" BorderBrush="#FF41666C" BorderThickness="2">
                         <MenuItem Header="Transitions" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Width="74" Height="28" FontWeight="SemiBold">
-                            <StackPanel Orientation="Horizontal" Width="361">
+                            <StackPanel Orientation="Horizontal" Width="445">
                                 <Label x:Name="l2" 
                                         Content="Central Processor" 
                                         HorizontalAlignment="Left" 
                                         VerticalAlignment="Top" Height="30"
+                                       Width="200"
                                         VerticalContentAlignment="Center" 
                                         HorizontalContentAlignment="Center" 
                                        FontSize="12"
@@ -248,12 +250,12 @@
                                 <Separator Background="#00000000" Width="3"/>
                                 <TextBox x:Name="CP_SliderTextBox"  Margin="0,5,0,5" Text="1.0" VerticalContentAlignment="Center" Width="60" HorizontalContentAlignment="Center" FontSize="12" IsEnabled="False"/>
                                 <Separator Background="#00000000" Width="3"/>
-                                <CheckBox Margin="0,5,0,5" VerticalContentAlignment="Center" ToolTip="Locked" IsEnabled="False" IsChecked="True"/>
+                                <CheckBox Margin="0,5,0,5" VerticalContentAlignment="Center" ToolTip="Locked" IsEnabled="False" Height="13"/>
                             </StackPanel>
                         </MenuItem>
                     </Menu>
                     <Separator Width="4" Background="#00A0A0A0"/>
-                    <Button Margin="0,5,0,5" HorizontalContentAlignment="Center" Padding="4.5" VerticalContentAlignment="Center" Content="Add Transition"/>
+                    <Button Margin="0,5,0,5" HorizontalContentAlignment="Center" Padding="4.5" VerticalContentAlignment="Center" Content="Add Transition" Click="AddTransitionButton_Click"/>
                     <Separator Width="4" Background="#00A0A0A0"/>
                     <Button Margin="0,5,0,5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Remove Transition" Padding="4"/>
                 </StackPanel>

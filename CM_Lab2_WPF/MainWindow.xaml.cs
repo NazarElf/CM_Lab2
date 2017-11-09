@@ -26,9 +26,7 @@ namespace CM_Lab2_WPF
             Slider1.MouseWheel += new MouseWheelEventHandler(Slider_MouseWheel);
             Slider1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(Slider_ValueChanged);
             Slider1.IsEnabled = false;
-
-            DeviceNode CP = new DeviceNode(1.0, 6, 2);
-            Accordance.Add(CD, CP);
+            
             
             #region nice trash
             /*
@@ -82,10 +80,8 @@ namespace CM_Lab2_WPF
             #endregion
         }
 
-        Dictionary<ListBoxItem, DeviceNode> Accordance = new Dictionary<ListBoxItem, DeviceNode>();
+        public Dictionary<ListBoxItem, DeviceNode> Accordance = new Dictionary<ListBoxItem, DeviceNode>();
         Random r = new Random();
-        public static double connectorDouble;
-        public static string connectorString;
 
         void StartProcessing(params DeviceNode[] Nodes)
         {
@@ -118,9 +114,86 @@ namespace CM_Lab2_WPF
             //TODO: here i should count statistic
         }
 
+        public void InvokeUpdate(DeviceNode dn)
+        {
+            //ListBoxItem temp;
+            foreach (var item in Accordance)
+            {
+                if (item.Value == dn)
+                {
+                    (((item.Key.Content as StackPanel).Children[4] as Menu).Items[0] as MenuItem).Items.Clear();
+                    foreach (var temp in dn.Transition)
+                    {
+                        MenuItemAdd(item.Key, temp.Key);
+                    }
+                }
+            }
+        }
+
+        private void MenuItemAdd(ListBoxItem basis, DeviceNode dn)
+        {
+            StackPanel itemsBase = new StackPanel();
+            Label nameLabel = new Label();
+            Slider probablitySlider = new Slider();
+            TextBox probabilityTextBox = new TextBox();
+            CheckBox lockedSliderCheckBox = new CheckBox();
+
+            itemsBase.Orientation = Orientation.Horizontal;
+            itemsBase.Width = 445;
+            nameLabel.Content = dn.name;
+            nameLabel.HorizontalAlignment = HorizontalAlignment.Left;
+            nameLabel.VerticalAlignment = VerticalAlignment.Top;
+            nameLabel.Height = 30;
+            nameLabel.Width = 200;
+            nameLabel.VerticalContentAlignment = VerticalAlignment.Center;
+            nameLabel.HorizontalContentAlignment = HorizontalAlignment.Center;
+            nameLabel.Foreground = Brushes.Black;
+            nameLabel.FontFamily = new FontFamily("Consolas");
+            nameLabel.FontWeight = FontWeights.Bold;
+            nameLabel.Background = new RadialGradientBrush(new GradientStopCollection
+            {
+                new GradientStop(Color.FromArgb(0,0,0,0), 1),
+                new GradientStop(Colors.White, 0.49),
+                new GradientStop(dn.acc, 0.66)
+            });
+
+            probablitySlider.Margin = new Thickness(0, 5, 0, 5);
+            probablitySlider.VerticalContentAlignment = VerticalAlignment.Center;
+            probablitySlider.HorizontalContentAlignment = HorizontalAlignment.Center;
+            probablitySlider.Maximum = 100;
+            probablitySlider.IsSnapToTickEnabled = true;
+            probablitySlider.Width = 150;
+            probablitySlider.Value = 100;
+
+            probabilityTextBox.Margin = new Thickness(0, 5, 0, 5);
+            probabilityTextBox.Text = "1,0";
+            probabilityTextBox.VerticalContentAlignment = VerticalAlignment.Center;
+            probabilityTextBox.Width = 60;
+            probabilityTextBox.HorizontalContentAlignment = HorizontalAlignment.Center;
+            probabilityTextBox.FontSize = 12;
+
+            lockedSliderCheckBox.Margin = new Thickness(0, 5, 0, 5);
+            lockedSliderCheckBox.VerticalContentAlignment = VerticalAlignment.Center;
+            lockedSliderCheckBox.ToolTip = "Locked";
+            lockedSliderCheckBox.Height = 13;
+
+            Separator s0 = new Separator(), s1 = new Separator(), s2 = new Separator();
+            s0.Width = s1.Width = s2.Width = 3;
+            s0.Background = s1.Background = s2.Background = Brushes.Transparent;
+            itemsBase.Children.Add(nameLabel);
+            itemsBase.Children.Add(s0);
+            itemsBase.Children.Add(probablitySlider);
+            itemsBase.Children.Add(s1);
+            itemsBase.Children.Add(probabilityTextBox);
+            itemsBase.Children.Add(s2);
+            itemsBase.Children.Add(lockedSliderCheckBox);
+
+            (((basis.Content as StackPanel).Children[4] as Menu).Items[0] as MenuItem).Items.Add(itemsBase);
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            DeviceNode CP = new DeviceNode(1, 6, 2);
+           /* DeviceNode CP = new DeviceNode(1, 6, 2);
             DeviceNode NB = new DeviceNode(2);
             DeviceNode OM = new DeviceNode(3);
             DeviceNode SB = new DeviceNode(3);
@@ -142,18 +215,19 @@ namespace CM_Lab2_WPF
             CD.AddTransition(CD, 0.5);
             CD.AddTransition(NB, 0.5);
 
-            StartProcessing(CP, NB, OM, SB, CD);
+            StartProcessing(CP, NB, OM, SB, CD);*/
         }
 
         public void InvokeCreation(string name, double tau)
         {
             ListBoxItem lbi;
-            CreatingNewDevice(name, tau, out lbi);
+            CreatingNewItem(name, tau, out lbi);
             listBox.Items.Add(lbi);
-            Accordance.Add(lbi, new DeviceNode(tau));
+            Color c = (((lbi.Content as StackPanel).Children[0] as Label).Background as RadialGradientBrush).GradientStops[2].Color;
+            Accordance.Add(lbi, new DeviceNode(tau, c, name));
         }
 
-        private void CreatingNewDevice(string name, double tau, out ListBoxItem listBoxItem)
+        private void CreatingNewItem(string name, double tau, out ListBoxItem listBoxItem)
         {
             listBoxItem = new ListBoxItem();
             StackPanel itemBase = new StackPanel();
@@ -170,23 +244,6 @@ namespace CM_Lab2_WPF
             listBoxItem.Padding = new Thickness(0);
             listBoxItem.Height = 40;
 
-            //if (first)
-            //{
-            //    first = false;
-            //    listBox.Resources.Add(SystemColors.HighlightBrushKey, new LinearGradientBrush(new GradientStopCollection
-            //                {
-            //    new GradientStop(Color.FromArgb(0x00, 0x00, 0x00, 0x00), 0),
-            //    new GradientStop(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF), 0.5),
-            //    new GradientStop(Color.FromArgb(0x00, 0x00, 0x00, 0x00), 1)
-            //}, new Point(0.5, 0), new Point(0.5, 1)));
-            //    listBox.Resources.Add(SystemColors.InactiveSelectionHighlightBrushKey, new LinearGradientBrush(new GradientStopCollection
-            //                {
-            //    new GradientStop(Color.FromArgb(0x00, 0x00, 0x00, 0x00), 0),
-            //    new GradientStop(Color.FromArgb(0xFF, 0x4B, 0x4B, 0x4B), 0.5),
-            //    new GradientStop(Color.FromArgb(0x00, 0x00, 0x00, 0x00), 1)
-            //}, new Point(0.5, 0), new Point(0.5, 1)));
-            //}
-
             itemBase.Height = 40;
             itemBase.Orientation = Orientation.Horizontal;
 
@@ -194,7 +251,7 @@ namespace CM_Lab2_WPF
             nameLabel.HorizontalAlignment = HorizontalAlignment.Left;
             nameLabel.VerticalContentAlignment = VerticalAlignment.Center;
             nameLabel.HorizontalContentAlignment = HorizontalAlignment.Center;
-            nameLabel.Width = 122;
+            nameLabel.Width = 200;
             nameLabel.Foreground = Brushes.Black;
             nameLabel.FontFamily = new FontFamily("Consolas");
             nameLabel.FontWeight = FontWeights.Bold;
@@ -212,12 +269,13 @@ namespace CM_Lab2_WPF
             tauTextBox.BorderThickness = new Thickness(2);
             tauTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF,0x41,0x66,0x6C));
             tauTextBox.ToolTip = "Tau";
-            tauTextBox.Margin = new Thickness(0, 7, 0, 7);
+            tauTextBox.Margin = new Thickness(0, 5, 0, 5);
             tauTextBox.VerticalContentAlignment = VerticalAlignment.Center;
             tauTextBox.Background = background;
+            tauTextBox.Style = FindResource("TextBoxesInList") as Style;
             tauTextBox.KeyUp += new KeyEventHandler(TextBox_KeyUp);
 
-            transitions.Margin = new Thickness(0, 4, 0, 4);
+            transitions.Margin = new Thickness(0, 5, 0, 5);
             transitions.Padding = new Thickness(0);
             transitions.HorizontalAlignment = HorizontalAlignment.Left;
             transitions.Width = 78; 
@@ -237,14 +295,13 @@ namespace CM_Lab2_WPF
             addButton.Padding = new Thickness(4.5);
             addButton.VerticalContentAlignment = VerticalAlignment.Center;
             addButton.Content = "Add Transition";
+            addButton.Click += new RoutedEventHandler(AddTransitionButton_Click);
 
             removeButton.Margin = new Thickness(0, 5, 0, 5);
             removeButton.HorizontalAlignment = HorizontalAlignment.Center;
             removeButton.Padding = new Thickness(4);
             removeButton.VerticalContentAlignment = VerticalAlignment.Center;
             removeButton.Content = "Remove Transition";
-
-            nameMenu.Items.Add("_Text");
 
             transitions.Items.Add(nameMenu);
 
@@ -334,11 +391,6 @@ namespace CM_Lab2_WPF
             aew.Show();
             aew.Owner = this;
             this.IsEnabled = false;
-            /*double tauInput = 1.2;
-            ListBoxItem newItem;
-            CreatingNewDevice("New", tauInput, out newItem);
-            listBox.Items.Add(newItem);
-            Accordance.Add(newItem, new DeviceNode(tauInput));*/
         }
 
         private void TextBox_KeyUp(object sender, KeyEventArgs e)
@@ -346,8 +398,8 @@ namespace CM_Lab2_WPF
             if (e.Key == Key.Enter)
             {
                 TextBox tb = sender as TextBox;
-                Grid g = tb.Parent as Grid;
-                ListBoxItem lbi = g.Parent as ListBoxItem;
+                StackPanel sp = tb.Parent as StackPanel;
+                ListBoxItem lbi = sp.Parent as ListBoxItem;
                 double res;
                 if (double.TryParse(tb.Text, out res))
                 {
@@ -356,6 +408,25 @@ namespace CM_Lab2_WPF
                 else
                     tb.Text = Accordance[lbi].GetTau().ToString();
             }
+        }
+
+        private void AddTransitionButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button b = sender as Button;
+            StackPanel sp = b.Parent as StackPanel;
+            DeviceNode dn = Accordance[sp.Parent as ListBoxItem];
+            AddTransition at = new AddTransition(dn);
+            at.Owner = this;
+            at.Show();
+            this.IsEnabled = false;
+        }
+
+        private void CD_Loaded(object sender, RoutedEventArgs e)
+        {
+            DeviceNode CP = new DeviceNode(1.0, Color.FromArgb(0x92, 0x00, 0xFF, 0xC5), "Central Processor", 6, 2);
+            CP.AddTransition(CP, 1);
+            CP.acc = Color.FromArgb(0x92, 0x00, 0xFF, 0xC5);
+            Accordance.Add(CD, CP);
         }
     }
 }

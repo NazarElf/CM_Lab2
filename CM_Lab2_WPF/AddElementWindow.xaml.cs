@@ -28,7 +28,25 @@ namespace CM_Lab2_WPF
         private void Apply_ButtonClick(object sender, RoutedEventArgs e)
         {
             MainWindow mw = Owner as MainWindow;
-            //mw.InvokeCreation()
+            double res;
+            if (!double.TryParse(TauTextBox.Text, out res))
+            {
+                MessageBox.Show("Incorect inputing tau. Try to input double value", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                TauTextBox.Text = "1,0";
+                return;
+            }
+            string s = NameTextBox.Text;
+            foreach (var item in s)
+            {
+                if (!(item <= 'z' && item >= 'a' || item <= 'Z' && item >= 'A' || item >= '1' && item <= '9'|| item == ' '))
+                {
+                    MessageBox.Show("Incorect inputing name. Avilable only english chars, digits and space", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+            }
+            mw.InvokeCreation(s, res);
+            Owner.IsEnabled = true;
+            this.Close();
         }
 
         private void Deny_ButtonClick(object sender, RoutedEventArgs e)
@@ -47,8 +65,12 @@ namespace CM_Lab2_WPF
             TextBox tb = sender as TextBox;
             double res;
             if(!double.TryParse(tb.Text, out res))
-                MessageBox.Show("Incorect inputing tau. Try to input double value", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-            tb.Text = "1,0";
+                tb.Text = "1,0";
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Owner.IsEnabled = true;
         }
     }
 }

@@ -7,8 +7,11 @@ using System.Windows;
 
 namespace CM_Lab2_WPF
 {
-    class DeviceNode
+    public class DeviceNode
     {
+        //just identificators
+        public System.Windows.Media.Color acc;
+        public string name;
         //Built in Random generator
         Random r = new Random();
         //Number of tasks that can be processing at the same time
@@ -18,15 +21,17 @@ namespace CM_Lab2_WPF
         //Time to compleate task on proc
         double tau;
         //Probabilities of Transitions
-        private Dictionary<DeviceNode, double> Transition = new Dictionary<DeviceNode, double>();
+        public Dictionary<DeviceNode, double> Transition = new Dictionary<DeviceNode, double>();
         //Two tasks that exec on proc
         private double[] onProc;
         //Have amount of time when processor was busy
         private double[] busyTime;
 
 
-        public DeviceNode(double tau, uint queue = 0, uint maxParalelTasks = 1)
+        public DeviceNode(double tau, System.Windows.Media.Color acc, string name,  uint queue = 0, uint maxParalelTasks = 1)
         {
+            this.acc = acc;
+            this.name = name;
             if (maxParalelTasks == 0)
                 throw new Exception("Device should have at least 1 thread of tasks");
             onProc = new double[TASKS_PER_PROC];
