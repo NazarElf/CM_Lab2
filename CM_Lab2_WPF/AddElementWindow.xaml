@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CM_Lab2_WPF"
         mc:Ignorable="d"
-        Title="AddElementWindow" 
         Height="70" 
         Width="279" 
         WindowStyle="None" 
@@ -23,7 +22,7 @@
         </LinearGradientBrush>
     </Window.Resources>
     <Canvas>
-    <Path Stroke="White" StrokeThickness="1">
+        <Path Stroke="White" StrokeThickness="1">
             <Path.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF122329" Offset="0"/>
@@ -35,9 +34,9 @@
             </Path.Data>
         </Path>
         <Grid MouseDown="Grid_MouseDown" Background="Transparent">
-            <TextBox Background ="{DynamicResource Elements}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Processing" VerticalAlignment="Top" Width="113" Margin="58,10,0,0"/>
+            <TextBox x:Name="NameTextBox" Background ="{DynamicResource Elements}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Processing" VerticalAlignment="Top" Width="113" Margin="58,10,0,0"/>
         <Label Foreground="Wheat" Content="Name: " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="23"/>
-        <TextBox Background ="{DynamicResource ResourceKey=Elements}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="1,0" VerticalAlignment="Top" Width="58" Margin="211,10,0,0" LostFocus="TextBox_LostFocus"/>
+        <TextBox x:Name="TauTextBox" Background ="{DynamicResource ResourceKey=Elements}" HorizontalAlignment="Left" Height="23" Text="1,0" VerticalAlignment="Top" Width="58" Margin="211,10,0,0" LostFocus="TextBox_LostFocus"/>
         <Label Foreground="Wheat" Content="Tau: " HorizontalAlignment="Left" Margin="176,10,0,0" VerticalAlignment="Top" Height="23"/>
         <Button Background ="{DynamicResource ResourceKey=Elements}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="126" Margin="10,38,0,0" Click="Apply_ButtonClick">
             <StackPanel Orientation="Horizontal">

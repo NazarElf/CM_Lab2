@@ -1,0 +1,209 @@
+﻿<Window x:Class="CM_Lab2_WPF.CustomMessageBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CM_Lab2_WPF"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="None" 
+        ResizeMode="NoResize" 
+        Topmost="True" 
+        AllowsTransparency="True" 
+        Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center" Loaded="Window_Loaded" Width="400">
+    <Window.Resources>
+        <LinearGradientBrush x:Key="Buttons" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#CC97A9B0" Offset="1"/>
+            <GradientStop Color="#CCF9F9F9"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="TransperentButtons" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF97A9B0" Offset="1"/>
+            <GradientStop Color="#FFF9F9F9"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="ButtonsClicked" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF97A9B0"/>
+            <GradientStop Color="#FFF9F9F9" Offset="1"/>
+        </LinearGradientBrush>
+        <Style TargetType="{x:Type Button}" x:Key="XButton">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Overlay" CornerRadius="10" BorderThickness="2">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="true">
+                                <Setter Property="BorderBrush" TargetName="Overlay" Value="#FF3C3C3C"/>
+                                <Setter Property="Background" TargetName="Overlay">
+                                    <Setter.Value>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF880000" Offset="1"/>
+                                            <GradientStop Color="Red" Offset="0"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="Overlay">
+                                    <Setter.Value>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF880000" Offset="1"/>
+                                            <GradientStop Color="Red" Offset="0"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="BorderBrush" TargetName="Overlay" Value="#FF57B1BF"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="Overlay" >
+                                    <Setter.Value>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF880000" Offset="0"/>
+                                            <GradientStop Color="Red" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="BorderBrush" TargetName="Overlay" Value="#FFABE5EE"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="BeautyButton">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Background" >
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#CC97A9B0" Offset="1"/>
+                        <GradientStop Color="#CCF9F9F9"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Overlay" CornerRadius="3" BorderThickness="2">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="true">
+                                <Setter Property="BorderBrush" TargetName="Overlay" Value="#FF41666C"/>
+                                <Setter Property="Background" TargetName="Overlay" Value="{DynamicResource Buttons}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="Overlay" Value="{DynamicResource TransperentButtons}"/>
+                                <Setter Property="BorderBrush" TargetName="Overlay" Value="#FF57B1BF"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="Overlay" Value="{DynamicResource ButtonsClicked}"/>
+                                <Setter Property="BorderBrush" TargetName="Overlay" Value="#FF79EDFF"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Overlay" Property="BorderBrush" Value="#FF41666C"/>
+                                <Setter TargetName="Overlay" Property="Background" Value="{DynamicResource Buttons}"/>
+                                <Setter Property="Foreground" Value="Gray"/>
+                                <Setter TargetName="Overlay" Property="Effect">
+                                    <Setter.Value>
+                                        <BlurEffect Radius="2"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Label x:Key="msgBoxText">
+
+        </Label>
+    </Window.Resources>
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Name="main">
+        <Grid Height="30" Panel.ZIndex="-1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+            <Canvas Grid.Column="0" Name="captionCanvas" HorizontalAlignment="Left" MouseDown="captionCanvas_MouseDown">
+                <Path  Stroke="White" StrokeThickness="1" x:Name="captionPath">
+                    <Path.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF122329" Offset="0"/>
+                            <GradientStop Color="#FF304247" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Path.Fill>
+                    <Path.Data>
+                        <RectangleGeometry Rect="0,0,50,40" RadiusX="10" RadiusY="10"  x:Name="captionRect"/>
+                    </Path.Data>
+                </Path>
+                <Label MinWidth="65" Name="Caption" Content="Caption" Foreground="White" Grid.ColumnSpan="2"/>
+            </Canvas>
+
+            <Canvas HorizontalAlignment="Right" Width="90" Grid.Column="1">
+                <Path Stroke="White" StrokeThickness="1">
+                    <Path.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF122329" Offset="0"/>
+                            <GradientStop Color="#FF304247" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Path.Fill>
+                    <Path.Data>
+                        <RectangleGeometry Rect="50,0,40,40" RadiusX="10" RadiusY="10"/>
+                    </Path.Data>
+                </Path>
+                <Button Height="20" Canvas.Left="60" Canvas.Top="5" Width="20" Style="{DynamicResource XButton}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Click="Button_Click">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#CC97A9B0" Offset="1"/>
+                            <GradientStop Color="#FFF9F9F9"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                    <Canvas>
+                        <Line Fill="Red" Stroke="Black" Y2="12" X1="12" X2="2" Y1="2"/>
+                        <Line Fill="Red" Stroke="Black" X2="12" Y2="12" X1="2" Y1="2"/>
+                    </Canvas>
+                </Button>
+            </Canvas>
+        </Grid>
+        <Grid x:Name="bgGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="35"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Path Stroke="White" StrokeThickness="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                <Path.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF122329" Offset="0"/>
+                        <GradientStop Color="#FF304247" Offset="1"/>
+                    </LinearGradientBrush>
+                </Path.Fill>
+                <Path.Data>
+                    <RectangleGeometry Rect="0,0,40,40" RadiusX="10" RadiusY="10" x:Name="bgRect"/>
+                </Path.Data>
+            </Path>
+            <TextBlock Margin="10" Name="Text" Text="Text" Foreground="Wheat" Grid.Column="1" Grid.Row="0" TextWrapping="WrapWithOverflow"/>
+            <Grid Grid.ColumnSpan="2" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Name="col0" Width="*"/>
+                    <ColumnDefinition Name="col1" Width="100"/>
+                    <ColumnDefinition Name="col2" Width="100"/>
+                    <ColumnDefinition Name="col3" Width="100"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="1" Width="90" MaxWidth="90"  Height="25" HorizontalAlignment="Right" Margin="5" Style="{StaticResource BeautyButton}"  x:Name="Ok" Content="OK" Click="Ok_Click"/>
+                <Button Grid.Column="1" Width="90" MaxWidth="90"  Height="25" HorizontalAlignment="Right" Margin="5" Style="{StaticResource BeautyButton}"  x:Name="Yes" Content="Yes" Click="Yes_Click"/>
+                <Button Grid.Column="2" Width="90" MaxWidth="90"  Height="25" HorizontalAlignment="Right" Margin="5" Style="{StaticResource BeautyButton}"  x:Name="No" Content="No" Click="No_Click"/>
+                <Button Grid.Column="3" Width="90" MaxWidth="90"  Height="25" HorizontalAlignment="Right" Margin="5" Style="{StaticResource BeautyButton}"  x:Name="Cancel" Content="Cancel" Click="Cancel_Click"/>
+            </Grid>
+
+        </Grid>
+
+    </StackPanel>
+</Window>

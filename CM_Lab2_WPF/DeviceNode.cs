@@ -14,12 +14,12 @@ namespace CM_Lab2_WPF
         //Number of tasks that can be processing at the same time
         private uint TASKS_PER_PROC = 1;
         //Queue of tasks
-        uint queue = 0;
+        private uint queue = 0;
         //Time to compleate task on proc
-        double tau;
+        private double tau;
         //Probabilities of Transitions
-        private Dictionary<DeviceNode, double> Transition = new Dictionary<DeviceNode, double>();
-        //Two tasks that exec on proc
+        public Dictionary<DeviceNode, double> Transition = new Dictionary<DeviceNode, double>();
+        //Tasks that exec on proc, if -1 => inactive
         private double[] onProc;
         //Have amount of time when processor was busy
         private double[] busyTime;
@@ -29,6 +29,7 @@ namespace CM_Lab2_WPF
         {
             if (maxParalelTasks == 0)
                 throw new Exception("Device should have at least 1 thread of tasks");
+            TASKS_PER_PROC = maxParalelTasks;
             onProc = new double[TASKS_PER_PROC];
             busyTime = new double[TASKS_PER_PROC];
             this.tau = tau;

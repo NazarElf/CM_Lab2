@@ -29,12 +29,21 @@ namespace CM_Lab2_WPF
         {
             MainWindow mw = Owner as MainWindow;
             //mw.InvokeCreation()
+            double res;
+            if (!double.TryParse(TauTextBox.Text, out res))
+            {
+                MessageBox.Show("Incorect inputing tau. Try to input double value", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            mw.InvokeCreation(NameTextBox.Text, res);
+            this.Close();
+            Owner.IsEnabled = true;
         }
 
         private void Deny_ButtonClick(object sender, RoutedEventArgs e)
         {
-            Owner.IsEnabled = true;
             this.Close();
+            Owner.IsEnabled = true;
         }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
@@ -46,9 +55,12 @@ namespace CM_Lab2_WPF
         {
             TextBox tb = sender as TextBox;
             double res;
-            if(!double.TryParse(tb.Text, out res))
-                MessageBox.Show("Incorect inputing tau. Try to input double value", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-            tb.Text = "1,0";
+            if (double.TryParse(tb.Text, out res))
+            {
+                tb.Text = res.ToString();
+                return;
+            }
+            tb.Text = (1.0).ToString();
         }
     }
 }

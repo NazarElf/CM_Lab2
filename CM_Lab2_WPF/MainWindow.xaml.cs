@@ -28,6 +28,7 @@ namespace CM_Lab2_WPF
             Slider1.IsEnabled = false;
 
             DeviceNode CP = new DeviceNode(1.0, 6, 2);
+            TransitionsDict.Add(MenuItem_StackPanelFrom_ListBoxItem(CD), CP.Transition);
             Accordance.Add(CD, CP);
             
             #region nice trash
@@ -83,6 +84,9 @@ namespace CM_Lab2_WPF
         }
 
         Dictionary<ListBoxItem, DeviceNode> Accordance = new Dictionary<ListBoxItem, DeviceNode>();
+        Dictionary<StackPanel, Dictionary<DeviceNode, double>> TransitionsDict = new Dictionary<StackPanel, Dictionary<DeviceNode, double>>();
+        DeviceNode SelectToAddTransition;
+        ListBoxItem lbiInvoker;
         Random r = new Random();
         public static double connectorDouble;
         public static string connectorString;
@@ -166,6 +170,8 @@ namespace CM_Lab2_WPF
             Menu transitions = new Menu();
                 MenuItem nameMenu = new MenuItem();
             Brush background = this.FindResource("Buttons") as LinearGradientBrush;
+            Style buttonStyle = this.FindResource("BeautyButton") as Style;
+            Style textBoxStyle = this.FindResource("BeautyTextBox") as Style;
 
             listBoxItem.Padding = new Thickness(0);
             listBoxItem.Height = 40;
@@ -212,12 +218,13 @@ namespace CM_Lab2_WPF
             tauTextBox.BorderThickness = new Thickness(2);
             tauTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF,0x41,0x66,0x6C));
             tauTextBox.ToolTip = "Tau";
-            tauTextBox.Margin = new Thickness(0, 7, 0, 7);
+            tauTextBox.Margin = new Thickness(0, 5, 0, 5);
             tauTextBox.VerticalContentAlignment = VerticalAlignment.Center;
             tauTextBox.Background = background;
             tauTextBox.KeyUp += new KeyEventHandler(TextBox_KeyUp);
+            tauTextBox.Style = textBoxStyle;
 
-            transitions.Margin = new Thickness(0, 4, 0, 4);
+            transitions.Margin = new Thickness(0, 5, 0, 5);
             transitions.Padding = new Thickness(0);
             transitions.HorizontalAlignment = HorizontalAlignment.Left;
             transitions.Width = 78; 
@@ -237,14 +244,15 @@ namespace CM_Lab2_WPF
             addButton.Padding = new Thickness(4.5);
             addButton.VerticalContentAlignment = VerticalAlignment.Center;
             addButton.Content = "Add Transition";
+            addButton.Style = buttonStyle;
+            addButton.Click += new RoutedEventHandler(AddTransition_ButtonClick);
 
             removeButton.Margin = new Thickness(0, 5, 0, 5);
             removeButton.HorizontalAlignment = HorizontalAlignment.Center;
             removeButton.Padding = new Thickness(4);
             removeButton.VerticalContentAlignment = VerticalAlignment.Center;
             removeButton.Content = "Remove Transition";
-
-            nameMenu.Items.Add("_Text");
+            removeButton.Style = buttonStyle;
 
             transitions.Items.Add(nameMenu);
 
@@ -270,6 +278,7 @@ namespace CM_Lab2_WPF
             }, new Point(0.5, 0), new Point(0.5, 1));
 
             listBoxItem.Content = itemBase;
+            listBoxItem.Selected += new RoutedEventHandler(CD_Selected);
         }
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -328,12 +337,12 @@ namespace CM_Lab2_WPF
             return Color.FromArgb(0x92, (byte)(r * 255), (byte)(g * 255), (byte)(b * 255));
         }
 
-        private void button_Click_1(object sender, RoutedEventArgs e)
+        private void addButton_Click(object sender, RoutedEventArgs e)
         {
             AddElementWindow aew = new AddElementWindow();
-            aew.Show();
+            //this.IsEnabled = false;
             aew.Owner = this;
-            this.IsEnabled = false;
+            aew.Show();
             /*double tauInput = 1.2;
             ListBoxItem newItem;
             CreatingNewDevice("New", tauInput, out newItem);
@@ -346,8 +355,8 @@ namespace CM_Lab2_WPF
             if (e.Key == Key.Enter)
             {
                 TextBox tb = sender as TextBox;
-                Grid g = tb.Parent as Grid;
-                ListBoxItem lbi = g.Parent as ListBoxItem;
+                StackPanel sp = tb.Parent as StackPanel;
+                ListBoxItem lbi = sp.Parent as ListBoxItem;
                 double res;
                 if (double.TryParse(tb.Text, out res))
                 {
@@ -356,6 +365,88 @@ namespace CM_Lab2_WPF
                 else
                     tb.Text = Accordance[lbi].GetTau().ToString();
             }
+        }
+
+        private StackPanel MenuItem_StackPanelFrom_ListBoxItem(ListBoxItem lbiIn)
+        {
+            return (((lbiIn.Content as StackPanel).Children[4] as Menu).Items[0] as MenuItem).Items[0] as StackPanel;
+        }
+
+        private MenuItem MenuItem_From_ListBoxItem(ListBoxItem lbiIn)
+        {
+            return (((lbiIn.Content as StackPanel).Children[4] as Menu).Items[0] as MenuItem);
+        }
+
+        private void CD_Selected(object sender, RoutedEventArgs e)
+        {
+            if(SelectToAddTransition != null && lbiInvoker != null)
+            {
+                SelectToAddTransition.Transition.Add(Accordance[sender as ListBoxItem], 0.0);
+                Label l = ((sender as ListBoxItem).Content as StackPanel).Children[0] as Label;
+                Brush labelBG = l.Background.Clone();
+                string name = l.Content as string;
+                l = new Label();
+                l.Background = labelBG;
+                l.Content = name;
+                l.Height = 30;
+                l.Width = 200;
+                l.HorizontalContentAlignment = HorizontalAlignment.Center;
+                l.VerticalContentAlignment = VerticalAlignment.Center;
+
+                StackPanel sp = new StackPanel();
+                sp.Children.Add(l);
+                sp.Width = 443;
+                sp.Orientation = Orientation.Horizontal;
+
+                Slider s = new Slider();
+                s.Margin = new Thickness(0, 5, 0, 5);
+                s.VerticalContentAlignment = VerticalAlignment.Center;
+                s.HorizontalContentAlignment = HorizontalAlignment.Center;
+                s.Maximum = 100;
+                s.Width = 150;
+                s.IsEnabled = false;
+
+                TextBox tb = new TextBox();
+                tb.Margin = new Thickness(0, 5, 0, 5);
+                tb.Text = "0,0";
+                tb.VerticalContentAlignment = VerticalAlignment.Center;
+                tb.HorizontalContentAlignment = HorizontalAlignment.Center;
+                tb.Width = 60;
+                tb.IsEnabled = false;
+
+                CheckBox cb = new CheckBox();
+                cb.Margin = new Thickness(0, 5, 0, 5);
+                cb.VerticalContentAlignment = VerticalAlignment.Center;
+                cb.ToolTip = "Locked";
+                cb.IsEnabled = false;
+                cb.IsChecked = true;
+
+                Separator s0 = new Separator(), s1 = new Separator(), s2 = new Separator();
+                s0.Width = s1.Width = s2.Width = 3;
+                s0.Background = s1.Background = s2.Background = Brushes.Transparent;
+
+                sp.Children.Add(s0);
+                sp.Children.Add(s);
+                sp.Children.Add(s1);
+                sp.Children.Add(tb);
+                sp.Children.Add(s2);
+                sp.Children.Add(cb);
+
+                MenuItem_From_ListBoxItem(lbiInvoker).Items.Add(sp);
+                SelectToAddTransition = null;
+                lbiInvoker = null;
+            }
+        }
+
+        private void AddTransition_ButtonClick(object sender, RoutedEventArgs e)
+        {
+            SelectToAddTransition = Accordance[(((sender as Button).Parent as StackPanel).Parent as ListBoxItem)];
+            lbiInvoker = (((sender as Button).Parent as StackPanel).Parent as ListBoxItem);
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
