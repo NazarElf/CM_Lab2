@@ -35,77 +35,77 @@
         </Path>
         <Grid MouseDown="Grid_MouseDown" Background="Transparent">
             <TextBox x:Name="NameTextBox" Background ="{DynamicResource Elements}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Processing" VerticalAlignment="Top" Width="113" Margin="58,10,0,0"/>
-        <Label Foreground="Wheat" Content="Name: " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="23"/>
-        <TextBox x:Name="TauTextBox" Background ="{DynamicResource ResourceKey=Elements}" HorizontalAlignment="Left" Height="23" Text="1,0" VerticalAlignment="Top" Width="58" Margin="211,10,0,0" LostFocus="TextBox_LostFocus"/>
-        <Label Foreground="Wheat" Content="Tau: " HorizontalAlignment="Left" Margin="176,10,0,0" VerticalAlignment="Top" Height="23"/>
-        <Button Background ="{DynamicResource ResourceKey=Elements}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="126" Margin="10,38,0,0" Click="Apply_ButtonClick">
-            <StackPanel Orientation="Horizontal">
-                <Path Fill="Lime" Stroke="Black">
-                    <Path.Data>
-                        <CombinedGeometry GeometryCombineMode="Union">
-                            <CombinedGeometry.Geometry1>
-                                <RectangleGeometry Rect="-7,4.8,4,8" RadiusX="10" RadiusY="3">
-                                    <RectangleGeometry.Transform>
-                                        <TransformGroup>
-                                            <ScaleTransform CenterY="8" CenterX="-5"/>
-                                            <SkewTransform CenterY="8" CenterX="-5"/>
-                                            <RotateTransform CenterY="8" CenterX="-5" Angle="-45"/>
-                                            <TranslateTransform X="-4"/>
-                                        </TransformGroup>
-                                    </RectangleGeometry.Transform>
-                                </RectangleGeometry>
-                            </CombinedGeometry.Geometry1>
-                            <CombinedGeometry.Geometry2>
-                                <RectangleGeometry Rect="-7,0.7,4,12" RadiusX="2" RadiusY="2">
-                                    <RectangleGeometry.Transform>
-                                        <TransformGroup>
-                                            <ScaleTransform CenterY="8" CenterX="-5"/>
-                                            <SkewTransform CenterY="8" CenterX="-5"/>
-                                            <RotateTransform CenterY="8" CenterX="-5" Angle="45"/>
-                                            <TranslateTransform/>
-                                        </TransformGroup>
-                                    </RectangleGeometry.Transform>
-                                </RectangleGeometry>
-                            </CombinedGeometry.Geometry2>
-                        </CombinedGeometry>
-                    </Path.Data>
-                </Path>
-                <Label Content="Apply" Padding="0"/>
-            </StackPanel>
-        </Button>
-        <Button Background ="{DynamicResource ResourceKey=Elements}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="126" Margin="143,38,0,0" Click="Deny_ButtonClick">
-            <StackPanel Orientation="Horizontal">
-                <Path Fill="Red" Stroke="Black">
-                    <Path.Data>
-                        <CombinedGeometry GeometryCombineMode="Union">
-                            <CombinedGeometry.Geometry1>
-                                <CombinedGeometry GeometryCombineMode="Xor">
-                                    <CombinedGeometry.Geometry1>
-                                        <EllipseGeometry RadiusX="8" RadiusY="8" Center="-5,8" />
-                                    </CombinedGeometry.Geometry1>
-                                    <CombinedGeometry.Geometry2>
-                                        <EllipseGeometry RadiusX="4" RadiusY="4" Center="-5,8" />
-                                    </CombinedGeometry.Geometry2>
-                                </CombinedGeometry>
-                            </CombinedGeometry.Geometry1>
-                            <CombinedGeometry.Geometry2>
-                                <RectangleGeometry Rect="-7,1,4,12">
-                                    <RectangleGeometry.Transform>
-                                        <TransformGroup>
-                                            <ScaleTransform CenterY="8" CenterX="-5"/>
-                                            <SkewTransform CenterY="8" CenterX="-5"/>
-                                            <RotateTransform CenterY="8" CenterX="-5" Angle="45"/>
-                                            <TranslateTransform/>
-                                        </TransformGroup>
-                                    </RectangleGeometry.Transform>
-                                </RectangleGeometry>
-                            </CombinedGeometry.Geometry2>
-                        </CombinedGeometry>
-                    </Path.Data>
-                </Path>
-                <Label Content="Deny" Padding="0"/>
-            </StackPanel>
-        </Button>
-    </Grid>
+            <Label Foreground="Wheat" Content="Name: " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="23"/>
+            <TextBox x:Name="TauTextBox" Background ="{DynamicResource ResourceKey=Elements}" HorizontalAlignment="Left" Height="23" Text="1,0" VerticalAlignment="Top" Width="58" Margin="211,10,0,0" LostFocus="TextBox_LostFocus"/>
+            <Label Foreground="Wheat" Content="Tau: " HorizontalAlignment="Left" Margin="176,10,0,0" VerticalAlignment="Top" Height="23"/>
+            <Button Background ="{DynamicResource ResourceKey=Elements}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="126" Margin="10,38,0,0" Click="Apply_ButtonClick">
+                <StackPanel Orientation="Horizontal">
+                    <Path Fill="Lime" Stroke="Black">
+                        <Path.Data>
+                            <CombinedGeometry GeometryCombineMode="Union">
+                                <CombinedGeometry.Geometry1>
+                                    <RectangleGeometry Rect="-7,4.8,4,8" RadiusX="10" RadiusY="3">
+                                        <RectangleGeometry.Transform>
+                                            <TransformGroup>
+                                                <ScaleTransform CenterY="8" CenterX="-5"/>
+                                                <SkewTransform CenterY="8" CenterX="-5"/>
+                                                <RotateTransform CenterY="8" CenterX="-5" Angle="-45"/>
+                                                <TranslateTransform X="-4"/>
+                                            </TransformGroup>
+                                        </RectangleGeometry.Transform>
+                                    </RectangleGeometry>
+                                </CombinedGeometry.Geometry1>
+                                <CombinedGeometry.Geometry2>
+                                    <RectangleGeometry Rect="-7,0.7,4,12" RadiusX="2" RadiusY="2">
+                                        <RectangleGeometry.Transform>
+                                            <TransformGroup>
+                                                <ScaleTransform CenterY="8" CenterX="-5"/>
+                                                <SkewTransform CenterY="8" CenterX="-5"/>
+                                                <RotateTransform CenterY="8" CenterX="-5" Angle="45"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </RectangleGeometry.Transform>
+                                    </RectangleGeometry>
+                                </CombinedGeometry.Geometry2>
+                            </CombinedGeometry>
+                        </Path.Data>
+                    </Path>
+                    <Label Content="Apply" Padding="0"/>
+                </StackPanel>
+            </Button>
+            <Button Background ="{DynamicResource ResourceKey=Elements}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="126" Margin="143,38,0,0" Click="Deny_ButtonClick">
+                <StackPanel Orientation="Horizontal">
+                    <Path Fill="Red" Stroke="Black">
+                        <Path.Data>
+                            <CombinedGeometry GeometryCombineMode="Union">
+                                <CombinedGeometry.Geometry1>
+                                    <CombinedGeometry GeometryCombineMode="Xor">
+                                        <CombinedGeometry.Geometry1>
+                                            <EllipseGeometry RadiusX="8" RadiusY="8" Center="-5,8" />
+                                        </CombinedGeometry.Geometry1>
+                                        <CombinedGeometry.Geometry2>
+                                            <EllipseGeometry RadiusX="4" RadiusY="4" Center="-5,8" />
+                                        </CombinedGeometry.Geometry2>
+                                    </CombinedGeometry>
+                                </CombinedGeometry.Geometry1>
+                                <CombinedGeometry.Geometry2>
+                                    <RectangleGeometry Rect="-7,1,4,12">
+                                        <RectangleGeometry.Transform>
+                                            <TransformGroup>
+                                                <ScaleTransform CenterY="8" CenterX="-5"/>
+                                                <SkewTransform CenterY="8" CenterX="-5"/>
+                                                <RotateTransform CenterY="8" CenterX="-5" Angle="45"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </RectangleGeometry.Transform>
+                                    </RectangleGeometry>
+                                </CombinedGeometry.Geometry2>
+                            </CombinedGeometry>
+                        </Path.Data>
+                    </Path>
+                    <Label Content="Deny" Padding="0"/>
+                </StackPanel>
+            </Button>
+        </Grid>
     </Canvas>
 </Window>

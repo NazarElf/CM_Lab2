@@ -70,8 +70,15 @@
       <DependentUpon>CustomMessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="DeviceNode.cs" />
+    <Compile Include="InputRelativeProbability.xaml.cs">
+      <DependentUpon>InputRelativeProbability.xaml</DependentUpon>
+    </Compile>
     <Compile Include="InvalidTransitionException.cs" />
     <Page Include="CustomMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InputRelativeProbability.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

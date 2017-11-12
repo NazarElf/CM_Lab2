@@ -9,12 +9,14 @@ namespace CM_Lab2_WPF
 {
     class DeviceNode
     {
+        //Device Name
+        public string name;
         //Built in Random generator
         Random r = new Random();
         //Number of tasks that can be processing at the same time
         private uint TASKS_PER_PROC = 1;
         //Queue of tasks
-        private uint queue = 0;
+        public uint queue = 0;
         //Time to compleate task on proc
         private double tau;
         //Probabilities of Transitions
@@ -22,10 +24,10 @@ namespace CM_Lab2_WPF
         //Tasks that exec on proc, if -1 => inactive
         private double[] onProc;
         //Have amount of time when processor was busy
-        private double[] busyTime;
+        public double[] busyTime;
 
 
-        public DeviceNode(double tau, uint queue = 0, uint maxParalelTasks = 1)
+        public DeviceNode(double tau, string name, uint queue = 0, uint maxParalelTasks = 1)
         {
             if (maxParalelTasks == 0)
                 throw new Exception("Device should have at least 1 thread of tasks");
@@ -34,9 +36,20 @@ namespace CM_Lab2_WPF
             busyTime = new double[TASKS_PER_PROC];
             this.tau = tau;
             this.queue = queue;
+            this.name = name;
             //set every core as inactive
             for (int i = 0; i < TASKS_PER_PROC; i++)
                 onProc[i] = -1.0;
+        }
+
+        public void Refresh()
+        {
+            //set every core as inactive
+            for (int i = 0; i < TASKS_PER_PROC; i++)
+            {
+                busyTime[i] = 0.0;
+                onProc[i] = -1.0;
+            }
         }
 
         public void EndTask()
@@ -53,9 +66,16 @@ namespace CM_Lab2_WPF
                     onProc[i] = -1;
                     //start next task
                     StartTask();
+
+                    double sum = 0.0;
+                    foreach (var item in Transition.Values)
+                    {
+                        sum += item;
+                    }
                     //generating random value between 0 and 1 
+                    //and multiplex it on sum of probabilities to have sum of chances = 1.0
                     //that needs to sell task to another device
-                    double temp = r.NextDouble();
+                    double temp = sum * r.NextDouble();
                     foreach(var item in Transition)
                     {
                         //if random value greatre skip that transition
@@ -94,7 +114,7 @@ namespace CM_Lab2_WPF
 
         public void SetTau(double Tau)
         {
-            MyMessageBox.Show("TauChanged");
+            MyMessageBox.Show("TauChanged!      ",this.name,MyMessageBoxButton.Ok,MyMessageBoxImage.Nuclear);
             this.tau = Tau;
         }
 
@@ -137,15 +157,6 @@ namespace CM_Lab2_WPF
         /// <param name="probability">Probability for transition to specified Node</param>
         public void AddTransition(DeviceNode trans, double probability)
         {
-            double sumProb = 0.0;
-            foreach (var item in Transition.Values)
-                sumProb += item;
-            if (sumProb + probability > 1.0)
-            {
-                sumProb = 1.0 - sumProb;
-                MessageBox.Show($"Invalid Probability. Set it Between 0.0 and {sumProb}");
-                return;
-            }
             Transition.Add(trans, probability);
         }
 

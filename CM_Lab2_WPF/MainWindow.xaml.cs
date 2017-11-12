@@ -23,10 +23,6 @@ namespace CM_Lab2_WPF
         public MainWindow()
         {
             InitializeComponent();
-            Slider1.MouseWheel += new MouseWheelEventHandler(Slider_MouseWheel);
-            Slider1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(Slider_ValueChanged);
-            Slider1.IsEnabled = false;
-
             DeviceNode CP = new DeviceNode(1.0, "Central Processor", 6, 2);
             TransitionsDict.Add(MenuItem_From_ListBoxItem(CD), CP.Transition);
             CP.Transition.Add(CP, 1.0);
@@ -121,7 +117,25 @@ namespace CM_Lab2_WPF
                 //tracking system time
                 sysTime += min;
             }
-            //TODO: here i should count statistic
+
+
+            //counting statistic
+            string res = "";
+            foreach (var node in Nodes)
+            {
+                for (int i = 0; i < node.busyTime.Length; i++)
+                {
+                    node.busyTime[i] /= sysTime;
+                    res += $"usage of {node.name} => core[{i}] = {(node.busyTime[i] * 100).ToString("0.00")}%\n";
+                }
+            }
+            MyMessageBox.Show(res, "Usages", MyMessageBoxButton.Ok, MyMessageBoxImage.Nuclear);
+           
+            //free data from devices
+            foreach (var item in Nodes)
+            {
+                item.Refresh();
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -239,6 +253,7 @@ namespace CM_Lab2_WPF
             removeButton.VerticalContentAlignment = VerticalAlignment.Center;
             removeButton.Content = "Remove Transition";
             removeButton.Style = buttonStyle;
+            removeButton.Width = 0;
 
             transitions.Items.Add(nameMenu);
 
@@ -264,22 +279,8 @@ namespace CM_Lab2_WPF
             }, new Point(0.5, 0), new Point(0.5, 1));
 
             listBoxItem.Content = itemBase;
-            listBoxItem.Selected += new RoutedEventHandler(CD_Selected);
-        }
-
-        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            string s = String.Format("{0:0.0000}",e.NewValue / 100.0);
-            double r = double.Parse(s);
-            CP_SliderTextBox.Text = r.ToString();
-            //SliderTry.Value = 100.0 * (1.0 - r);
-        }
-
-        private void Slider_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            int i = e.Delta;
-            Slider s = sender as Slider;
-            s.Value += i / 120;
+            listBoxItem.MouseDoubleClick += new MouseButtonEventHandler(lbi_DoubleClick);
+            //listBoxItem.MouseDoubleClick += new MouseEventHandler(lbi_DoubleClick);
         }
 
         private static Color HsvToRgb(int hue, int saturation, int value)
@@ -353,23 +354,22 @@ namespace CM_Lab2_WPF
             }
         }
 
-        /*private StackPanel MenuItem_StackPanelFrom_ListBoxItem(ListBoxItem lbiIn)
-        {
-            return (((lbiIn.Content as StackPanel).Children[4] as Menu).Items[0] as MenuItem).Items[0] as StackPanel;
-        }*/
-
         private MenuItem MenuItem_From_ListBoxItem(ListBoxItem lbiIn)
         {
             return (((lbiIn.Content as StackPanel).Children[4] as Menu).Items[0] as MenuItem);
         }
 
-        private void CD_Selected(object sender, RoutedEventArgs e)
+        private void lbi_DoubleClick(object sender, MouseButtonEventArgs e)
         {
             if(SelectToAddTransition != null && lbiInvoker != null)
             {
                 try
                 {
-                    SelectToAddTransition.Transition.Add(Accordance[sender as ListBoxItem], 0.0);
+                    double prob = 1.0;
+                    InputRelativeProbability irp = new InputRelativeProbability(SelectToAddTransition.name, Accordance[sender as ListBoxItem].name);
+                    irp.ShowDialog();
+                    prob = irp.res;
+                    SelectToAddTransition.Transition.Add(Accordance[sender as ListBoxItem], prob);
 
                     Label l = ((sender as ListBoxItem).Content as StackPanel).Children[0] as Label;
                     Brush labelBG = l.Background.Clone();
@@ -384,47 +384,24 @@ namespace CM_Lab2_WPF
 
                     StackPanel sp = new StackPanel();
                     sp.Children.Add(l);
-                    sp.Width = 443;
+                    sp.Width = 275;
                     sp.Orientation = Orientation.Horizontal;
 
-                    Slider s = new Slider();
-                    s.Margin = new Thickness(0, 5, 0, 5);
-                    s.VerticalContentAlignment = VerticalAlignment.Center;
-                    s.HorizontalContentAlignment = HorizontalAlignment.Center;
-                    s.Maximum = 100;
-                    s.Width = 150;
-                    s.IsEnabled = false;
+                    Label probabilityLabel = new Label();
+                    probabilityLabel.Content = prob.ToString();
 
-                    TextBox tb = new TextBox();
-                    tb.Margin = new Thickness(0, 5, 0, 5);
-                    tb.Text = "0,0";
-                    tb.VerticalContentAlignment = VerticalAlignment.Center;
-                    tb.HorizontalContentAlignment = HorizontalAlignment.Center;
-                    tb.Width = 60;
-                    tb.IsEnabled = false;
-
-                    CheckBox cb = new CheckBox();
-                    cb.Margin = new Thickness(0, 5, 0, 5);
-                    cb.VerticalContentAlignment = VerticalAlignment.Center;
-                    cb.ToolTip = "Locked";
-                    cb.IsEnabled = false;
-                    cb.IsChecked = true;
-
-                    Separator s0 = new Separator(), s1 = new Separator(), s2 = new Separator();
-                    s0.Width = s1.Width = s2.Width = 3;
-                    s0.Background = s1.Background = s2.Background = Brushes.Transparent;
+                    Separator s0 = new Separator();
+                    s0.Width = 3;
+                    s0.Background = Brushes.Transparent;
 
                     sp.Children.Add(s0);
-                    sp.Children.Add(s);
-                    sp.Children.Add(s1);
-                    sp.Children.Add(tb);
-                    sp.Children.Add(s2);
-                    sp.Children.Add(cb);
+                    sp.Children.Add(probabilityLabel);
 
                     MenuItem_From_ListBoxItem(lbiInvoker).Items.Add(sp);
                     SelectToAddTransition = null;
                     lbiInvoker = null;
                     listBox.Cursor = Cursors.Arrow;
+                    cancelButton.IsEnabled = false;
                 }
                 catch (Exception ex)
                 {
@@ -435,22 +412,22 @@ namespace CM_Lab2_WPF
             }
             if(RemoveItem)
             {
-                DeviceNode forDelete = Accordance[sender as ListBoxItem];
-                //remove from transitions
-                /*foreach (var spDict in TransitionsDict)
-                {
-                    foreach (var trnsDict in spDict.Value)
-                    {
-                        if(forDelete == trnsDict.Key)
-                        {
-
-                        }
-                    }
-                }*/
-                //remove from dictionary
-
-                //remove from list
-                listBox.Cursor = Cursors.Arrow;
+                //DeviceNode forDelete = Accordance[sender as ListBoxItem];
+                ////remove from transitions
+                ///*foreach (var spDict in TransitionsDict)
+                //{
+                //    foreach (var trnsDict in spDict.Value)
+                //    {
+                //        if(forDelete == trnsDict.Key)
+                //        {
+                //
+                //        }
+                //    }
+                //}*/
+                ////remove from dictionary
+                //
+                ////remove from list
+                //listBox.Cursor = Cursors.Arrow;
             }
         }
 
@@ -472,8 +449,12 @@ namespace CM_Lab2_WPF
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
-            cancelButton.IsEnabled = true;
-            listBox.Cursor = Cursors.Hand;
+            /*cancelButton.IsEnabled = true;
+            listBox.Cursor = Cursors.Hand;*/
+            Accordance = new Dictionary<ListBoxItem, DeviceNode>();
+            TransitionsDict = new Dictionary<MenuItem, Dictionary<DeviceNode, double>>();
+            listBox.Items.Clear();
+            InvokeCreation("Central Processor", 1);
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
@@ -485,6 +466,18 @@ namespace CM_Lab2_WPF
             removeButton.IsEnabled = true;
             cancelButton.IsEnabled = false;
             listBox.Cursor = Cursors.Arrow;
+        }
+
+        private void StartButton_Click(object sender, RoutedEventArgs e)
+        {
+            uint res;
+            if (uint.TryParse(Count.Text, out res))
+            {
+                Accordance[listBox.Items.GetItemAt(0) as ListBoxItem].queue = res;
+                StartProcessing(Accordance.Values.ToArray());
+            }
+            else
+                MyMessageBox.Show("Input unsigned integer", "Queue", MyMessageBoxButton.Ok,MyMessageBoxImage.Error);
         }
     }
 }
