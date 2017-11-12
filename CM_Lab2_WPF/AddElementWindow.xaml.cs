@@ -27,6 +27,11 @@ namespace CM_Lab2_WPF
 
         private void Apply_ButtonClick(object sender, RoutedEventArgs e)
         {
+            Apply();
+        }
+
+        private void Apply()
+        {
             MainWindow mw = Owner as MainWindow;
             //mw.InvokeCreation()
             double res;
@@ -61,6 +66,12 @@ namespace CM_Lab2_WPF
                 return;
             }
             tb.Text = (1.0).ToString();
+        }
+
+        private void Canvas_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                Apply();
         }
     }
 }

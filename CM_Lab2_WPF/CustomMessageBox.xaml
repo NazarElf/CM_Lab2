@@ -10,8 +10,270 @@
         ResizeMode="NoResize" 
         Topmost="True" 
         AllowsTransparency="True" 
-        Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center" Loaded="Window_Loaded" Width="400">
+        Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center" Loaded="Window_Loaded" Width="400" KeyDown="Window_KeyDown">
     <Window.Resources>
+        <Canvas x:Key="Question" Grid.Column="0" Grid.Row="0" Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,5,0">
+            <Path Stroke="White">
+                <Path.Fill>
+                    <RadialGradientBrush GradientOrigin="1,1" Center="1,1" RadiusX="1.5" RadiusY="1.25">
+                        <GradientStop Color="#FF000C55"/>
+                        <GradientStop Color="#FF8CB6FF" Offset="1"/>
+                        <GradientStop Color="#FF3752FF" Offset="0.467"/>
+                        <GradientStop Color="#FF357EFF" Offset="0.533"/>
+                    </RadialGradientBrush>
+                </Path.Fill>
+                <Path.Data>
+                    <EllipseGeometry Center="15,15" RadiusX="15" RadiusY="15" />
+                </Path.Data>
+            </Path>
+            <Path>
+                <Path.Fill>
+                    <RadialGradientBrush Center="0.5,0.7">
+                        <GradientStop Color="LightGray" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </RadialGradientBrush>
+                </Path.Fill>
+                <Path.Data>
+                    <CombinedGeometry>
+                        <CombinedGeometry.Geometry1>
+                            <PathGeometry>
+                                <PathFigure StartPoint="13, 20" IsClosed="True">
+                                    <LineSegment Point="13, 19"/>
+                                    <BezierSegment Point1="13,13" Point2="19,13" Point3="18,9"/>
+                                    <BezierSegment Point1="15,4" Point2="12,8" Point3="12,10"/>
+                                    <LineSegment Point="8,10"/>
+                                    <BezierSegment Point1="8,7" Point2="15,-3" Point3="22,9"/>
+                                    <BezierSegment Point1="22,13" Point2="17,13" Point3="17,19"/>
+                                    <LineSegment Point="17, 19"/>
+                                    <LineSegment Point="17, 20"/>
+                                </PathFigure>
+                            </PathGeometry>
+                        </CombinedGeometry.Geometry1>
+                        <CombinedGeometry.Geometry2>
+                            <EllipseGeometry RadiusX="2.25" RadiusY="2.25" Center="15,24" />
+                        </CombinedGeometry.Geometry2>
+                    </CombinedGeometry>
+                </Path.Data>
+            </Path>
+        </Canvas>
+        <Canvas x:Key="Cross" Grid.Column="0" Grid.Row="0" Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,5,0">
+            <Path Stroke="White">
+                <Path.Fill>
+                    <RadialGradientBrush GradientOrigin="1,1" Center="1,1" RadiusX="1.5" RadiusY="1.25">
+                        <GradientStop Color="#FF9C0000"/>
+                        <GradientStop Color="White" Offset="1"/>
+                        <GradientStop Color="#FFDC0000" Offset="0.467"/>
+                        <GradientStop Color="Red" Offset="0.533"/>
+                    </RadialGradientBrush>
+                </Path.Fill>
+                <Path.Data>
+                    <EllipseGeometry Center="15,15" RadiusX="15" RadiusY="15" />
+                </Path.Data>
+            </Path>
+            <Path>
+                <Path.Fill>
+                    <RadialGradientBrush Center="0.5,0.7">
+                        <GradientStop Color="#FFA4A4A4" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </RadialGradientBrush>
+                </Path.Fill>
+                <Path.Data>
+                    <PathGeometry>
+                        <PathFigure StartPoint="12,15" IsClosed="True">
+                            <LineSegment Point="5,8"/>
+                            <LineSegment Point="8,5"/>
+                            <LineSegment Point="15,12"/>
+                            <LineSegment Point="22,5"/>
+                            <LineSegment Point="25,8"/>
+                            <LineSegment Point="18,15"/>
+                            <LineSegment Point="25,22"/>
+                            <LineSegment Point="22,25"/>
+                            <LineSegment Point="15,18"/>
+                            <LineSegment Point="8,25"/>
+                            <LineSegment Point="5,22"/>
+                        </PathFigure>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+        </Canvas>
+        <Canvas x:Key="Asterisk" Grid.Column="0" Grid.Row="0" Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,5,0">
+            <Path Stroke="White">
+                <Path.Fill>
+                    <RadialGradientBrush GradientOrigin="1,1" Center="1,1" RadiusX="1.5" RadiusY="1.25">
+                        <GradientStop Color="#FF000C55"/>
+                        <GradientStop Color="#FF8CB6FF" Offset="1"/>
+                        <GradientStop Color="#FF3752FF" Offset="0.467"/>
+                        <GradientStop Color="#FF357EFF" Offset="0.533"/>
+                    </RadialGradientBrush>
+                </Path.Fill>
+                <Path.Data>
+                    <EllipseGeometry Center="15,15" RadiusX="15" RadiusY="15" />
+                </Path.Data>
+            </Path>
+            <Path>
+                <Path.Fill>
+                    <RadialGradientBrush Center="0.5,0.7">
+                        <GradientStop Color="#FF838383" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </RadialGradientBrush>
+                </Path.Fill>
+                <Path.Data>
+                    <CombinedGeometry>
+                        <CombinedGeometry.Geometry1>
+                            <PathGeometry>
+                                <PathFigure StartPoint="13,11.5" IsClosed="True">
+                                    <LineSegment Point="13, 25"/>
+                                    <LineSegment Point="17, 25"/>
+                                    <LineSegment Point="17, 11.5"/>
+                                </PathFigure>
+                            </PathGeometry>
+                        </CombinedGeometry.Geometry1>
+                        <CombinedGeometry.Geometry2>
+                            <EllipseGeometry RadiusX="2" RadiusY="2" Center="15,8" />
+                        </CombinedGeometry.Geometry2>
+                    </CombinedGeometry>
+                </Path.Data>
+            </Path>
+        </Canvas>
+        <Canvas x:Key="Exclamation" Grid.Column="0" Grid.Row="0" Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,5,0">
+            <Path Stroke="#FF616161" StrokeLineJoin="Round">
+                <Path.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                        <GradientStop Color="Olive" Offset="0"/>
+                        <GradientStop Color="Yellow" Offset="1"/>
+                    </LinearGradientBrush>
+                </Path.Fill>
+                <Path.Data>
+                    <PathGeometry>
+                        <PathFigure StartPoint="0,30" IsClosed="True">
+                            <LineSegment Point="15,0"/>
+                            <LineSegment Point="30,30" />
+                        </PathFigure>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+            <Path Stroke="#FF422A00" StrokeLineJoin="Round" StrokeThickness="0.5">
+                <Path.Fill>
+                    <LinearGradientBrush EndPoint="0.5,0.5" MappingMode="RelativeToBoundingBox" StartPoint="0.3,0.5" SpreadMethod="Reflect">
+                        <GradientStop Color="Orange" Offset="1"/>
+                        <GradientStop Color="#FF935F00"/>
+                    </LinearGradientBrush>
+                </Path.Fill>
+                <Path.Data>
+                    <CombinedGeometry>
+                        <CombinedGeometry.Geometry1>
+                            <PathGeometry>
+                                <PathFigure StartPoint="12,9" IsClosed="True">
+                                    <LineSegment Point="18,9"/>
+                                    <LineSegment Point="16.5,22"/>
+                                    <LineSegment Point="13.5,22"/>
+                                </PathFigure>
+                            </PathGeometry>
+                        </CombinedGeometry.Geometry1>
+                        <CombinedGeometry.Geometry2>
+                            <EllipseGeometry Center="15,26" RadiusX="2.25" RadiusY="2.25" />
+                        </CombinedGeometry.Geometry2>
+                    </CombinedGeometry>
+                </Path.Data>
+            </Path>
+        </Canvas>
+        <Canvas x:Key="NuclearIcon" Grid.Column="0" Grid.Row="0" Name="NuclearIcon" Height="30" Width="30" Margin="5,0,5,0">
+            <Ellipse Fill="Black" Stroke="White" Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Path>
+                <Path.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Yellow" Offset="0"/>
+                        <GradientStop Color="#FFB2B200" Offset="1"/>
+                    </LinearGradientBrush>
+                </Path.Fill>
+                <Path.Data>
+                    <CombinedGeometry>
+                        <CombinedGeometry.Geometry1>
+                            <CombinedGeometry GeometryCombineMode="Exclude">
+                                <CombinedGeometry.Geometry1>
+                                    <CombinedGeometry>
+                                        <CombinedGeometry.Geometry1>
+                                            <CombinedGeometry>
+                                                <CombinedGeometry.Geometry1>
+                                                    <CombinedGeometry>
+                                                        <CombinedGeometry.Geometry1>
+                                                            <PathGeometry>
+                                                                <PathGeometry.Figures>
+                                                                    <PathFigure StartPoint="27,15" IsClosed="False">
+                                                                        <ArcSegment Point="21,4.608" Size="9,12"/>
+                                                                    </PathFigure>
+                                                                </PathGeometry.Figures>
+                                                            </PathGeometry>
+                                                        </CombinedGeometry.Geometry1>
+                                                        <CombinedGeometry.Geometry2>
+                                                            <PathGeometry>
+                                                                <PathFigure StartPoint="15,15" IsClosed="True">
+                                                                    <LineSegment Point="27,15"/>
+                                                                    <LineSegment Point="21,4.608"/>
+                                                                </PathFigure>
+                                                            </PathGeometry>
+                                                        </CombinedGeometry.Geometry2>
+                                                    </CombinedGeometry>
+                                                </CombinedGeometry.Geometry1>
+                                                <CombinedGeometry.Geometry2>
+                                                    <CombinedGeometry>
+                                                        <CombinedGeometry.Geometry1>
+                                                            <PathGeometry>
+                                                                <PathGeometry.Figures>
+                                                                    <PathFigure StartPoint="9,4.608" IsClosed="False">
+                                                                        <ArcSegment Point="3,15" Size="9,12"/>
+                                                                    </PathFigure>
+                                                                </PathGeometry.Figures>
+                                                            </PathGeometry>
+                                                        </CombinedGeometry.Geometry1>
+                                                        <CombinedGeometry.Geometry2>
+                                                            <PathGeometry>
+                                                                <PathFigure StartPoint="15,15" IsClosed="True">
+                                                                    <LineSegment Point="9,4.608"/>
+                                                                    <LineSegment Point="3,15"/>
+                                                                </PathFigure>
+                                                            </PathGeometry>
+                                                        </CombinedGeometry.Geometry2>
+                                                    </CombinedGeometry>
+                                                </CombinedGeometry.Geometry2>
+                                            </CombinedGeometry>
+                                        </CombinedGeometry.Geometry1>
+                                        <CombinedGeometry.Geometry2>
+                                            <CombinedGeometry>
+                                                <CombinedGeometry.Geometry1>
+                                                    <PathGeometry>
+                                                        <PathGeometry.Figures>
+                                                            <PathFigure StartPoint="9,25.392" IsClosed="False">
+                                                                <ArcSegment Point="21,25.392" Size="12,12"/>
+                                                            </PathFigure>
+                                                        </PathGeometry.Figures>
+                                                    </PathGeometry>
+                                                </CombinedGeometry.Geometry1>
+                                                <CombinedGeometry.Geometry2>
+                                                    <PathGeometry>
+                                                        <PathFigure StartPoint="15,15" IsClosed="True">
+                                                            <LineSegment Point="9,25.392"/>
+                                                            <LineSegment Point="21,25.392"/>
+                                                        </PathFigure>
+                                                    </PathGeometry>
+                                                </CombinedGeometry.Geometry2>
+                                            </CombinedGeometry>
+                                        </CombinedGeometry.Geometry2>
+                                    </CombinedGeometry>
+                                </CombinedGeometry.Geometry1>
+                                <CombinedGeometry.Geometry2>
+                                    <EllipseGeometry RadiusX="4" RadiusY="4" Center="15,15"/>
+                                </CombinedGeometry.Geometry2>
+                            </CombinedGeometry>
+                        </CombinedGeometry.Geometry1>
+                        <CombinedGeometry.Geometry2>
+                            <EllipseGeometry Center="15,15" RadiusX="2.5" RadiusY="2.5"/>
+                        </CombinedGeometry.Geometry2>
+                    </CombinedGeometry>
+                </Path.Data>
+            </Path>
+        </Canvas>
+
         <LinearGradientBrush x:Key="Buttons" EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#CC97A9B0" Offset="1"/>
             <GradientStop Color="#CCF9F9F9"/>
@@ -123,7 +385,7 @@
         </Label>
     </Window.Resources>
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Name="main">
-        <Grid Height="30" Panel.ZIndex="-1" >
+        <Grid Height="30" Panel.ZIndex="-1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="40"/>
@@ -175,8 +437,8 @@
                 <RowDefinition Height="35"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="25"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Path Stroke="White" StrokeThickness="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
                 <Path.Fill>
@@ -189,7 +451,9 @@
                     <RectangleGeometry Rect="0,0,40,40" RadiusX="10" RadiusY="10" x:Name="bgRect"/>
                 </Path.Data>
             </Path>
-            <TextBlock Margin="10" Name="Text" Text="Text" Foreground="Wheat" Grid.Column="1" Grid.Row="0" TextWrapping="WrapWithOverflow"/>
+
+
+            <TextBlock Padding="10,0,0,0" Margin="10" Name="Text" Text="Text" Foreground="Wheat" Grid.Column="1" Grid.Row="0" TextWrapping="WrapWithOverflow"/>
             <Grid Grid.ColumnSpan="2" Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Name="col0" Width="*"/>

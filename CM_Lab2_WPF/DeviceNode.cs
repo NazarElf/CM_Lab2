@@ -94,7 +94,7 @@ namespace CM_Lab2_WPF
 
         public void SetTau(double Tau)
         {
-            MessageBox.Show("TauChanged");
+            MyMessageBox.Show("TauChanged");
             this.tau = Tau;
         }
 

@@ -262,8 +262,8 @@
             <!--<Slider Name="SliderTry" Width="219" Maximum="100"/>-->
         </ListBox>
         <Button Content="TEMP START" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="616,429,10,0" Height="30" Width="116" FontSize="20" Click="Button_Click" />
-        <Button x:Name="button" Content="Add" Margin="10,0,0,10" HorizontalAlignment="Left" Width="75" Height="33" VerticalAlignment="Bottom" Click="addButton_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Style="{DynamicResource BeautyButton}"/>
-        <Button x:Name="button_Copy" Content="Button" Margin="90,0,0,10" HorizontalAlignment="Left" Width="75" Height="33" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Style="{DynamicResource BeautyButton}"/>
-        <Button x:Name="button_Copy1" Content="Button" Margin="170,0,0,10" HorizontalAlignment="Left" Width="75" Height="33" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Style="{DynamicResource BeautyButton}"/>
+        <Button Name="addButton" Content="Add" Margin="10,0,0,10" HorizontalAlignment="Left" Width="75" Height="33" VerticalAlignment="Bottom" Click="addButton_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Style="{DynamicResource BeautyButton}"/>
+        <Button Name="removeButton"  Content="Remove" Margin="90,0,0,10" HorizontalAlignment="Left" Width="75" Height="33" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Style="{DynamicResource BeautyButton}" Click="RemoveButton_Click"/>
+        <Button Name="cancelButton" Content="Cancel" Margin="170,0,0,10" HorizontalAlignment="Left" Width="75" Height="33" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Style="{DynamicResource BeautyButton}" Click="cancelButton_Click"/>
     </Grid>
 </Window>

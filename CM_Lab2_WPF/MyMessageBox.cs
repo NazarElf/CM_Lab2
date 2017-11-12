@@ -82,7 +82,8 @@ namespace CM_Lab2_WPF
         Exclamation = 3,
         Warning = 3,
         Asterisk = 4,
-        Information = 4
+        Information = 4,
+        Nuclear = 5
     }
 
 }

@@ -21,7 +21,7 @@
             <GradientStop Color="#CCF9F9F9"/>
         </LinearGradientBrush>
     </Window.Resources>
-    <Canvas>
+    <Canvas KeyDown="Canvas_KeyDown">
         <Path Stroke="White" StrokeThickness="1">
             <Path.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

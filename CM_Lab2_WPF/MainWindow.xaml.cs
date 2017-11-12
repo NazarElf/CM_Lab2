@@ -27,8 +27,9 @@ namespace CM_Lab2_WPF
             Slider1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(Slider_ValueChanged);
             Slider1.IsEnabled = false;
 
-            DeviceNode CP = new DeviceNode(1.0, 6, 2);
-            TransitionsDict.Add(MenuItem_StackPanelFrom_ListBoxItem(CD), CP.Transition);
+            DeviceNode CP = new DeviceNode(1.0, "Central Processor", 6, 2);
+            TransitionsDict.Add(MenuItem_From_ListBoxItem(CD), CP.Transition);
+            CP.Transition.Add(CP, 1.0);
             Accordance.Add(CD, CP);
             
             #region nice trash
@@ -84,8 +85,9 @@ namespace CM_Lab2_WPF
         }
 
         Dictionary<ListBoxItem, DeviceNode> Accordance = new Dictionary<ListBoxItem, DeviceNode>();
-        Dictionary<StackPanel, Dictionary<DeviceNode, double>> TransitionsDict = new Dictionary<StackPanel, Dictionary<DeviceNode, double>>();
+        Dictionary<MenuItem, Dictionary<DeviceNode, double>> TransitionsDict = new Dictionary<MenuItem, Dictionary<DeviceNode, double>>();
         DeviceNode SelectToAddTransition;
+        bool RemoveItem = false;
         ListBoxItem lbiInvoker;
         Random r = new Random();
         public static double connectorDouble;
@@ -124,11 +126,11 @@ namespace CM_Lab2_WPF
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            DeviceNode CP = new DeviceNode(1, 6, 2);
-            DeviceNode NB = new DeviceNode(2);
-            DeviceNode OM = new DeviceNode(3);
-            DeviceNode SB = new DeviceNode(3);
-            DeviceNode CD = new DeviceNode(5);
+            DeviceNode CP = new DeviceNode(1, "Central Processor", 6, 2);
+            DeviceNode NB = new DeviceNode(2, "North Bridge");
+            DeviceNode OM = new DeviceNode(3, "Operating Memory");
+            DeviceNode SB = new DeviceNode(3, "South Bridhe");
+            DeviceNode CD = new DeviceNode(5, "Disk Controller");
             CP.AddTransition(CP, 0.5);
             CP.AddTransition(NB, 0.5);
 
@@ -154,7 +156,8 @@ namespace CM_Lab2_WPF
             ListBoxItem lbi;
             CreatingNewDevice(name, tau, out lbi);
             listBox.Items.Add(lbi);
-            Accordance.Add(lbi, new DeviceNode(tau));
+            Accordance.Add(lbi, new DeviceNode(tau, name));
+            TransitionsDict.Add(MenuItem_From_ListBoxItem(lbi), Accordance[lbi].Transition);
         }
 
         private void CreatingNewDevice(string name, double tau, out ListBoxItem listBoxItem)
@@ -175,23 +178,6 @@ namespace CM_Lab2_WPF
 
             listBoxItem.Padding = new Thickness(0);
             listBoxItem.Height = 40;
-
-            //if (first)
-            //{
-            //    first = false;
-            //    listBox.Resources.Add(SystemColors.HighlightBrushKey, new LinearGradientBrush(new GradientStopCollection
-            //                {
-            //    new GradientStop(Color.FromArgb(0x00, 0x00, 0x00, 0x00), 0),
-            //    new GradientStop(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF), 0.5),
-            //    new GradientStop(Color.FromArgb(0x00, 0x00, 0x00, 0x00), 1)
-            //}, new Point(0.5, 0), new Point(0.5, 1)));
-            //    listBox.Resources.Add(SystemColors.InactiveSelectionHighlightBrushKey, new LinearGradientBrush(new GradientStopCollection
-            //                {
-            //    new GradientStop(Color.FromArgb(0x00, 0x00, 0x00, 0x00), 0),
-            //    new GradientStop(Color.FromArgb(0xFF, 0x4B, 0x4B, 0x4B), 0.5),
-            //    new GradientStop(Color.FromArgb(0x00, 0x00, 0x00, 0x00), 1)
-            //}, new Point(0.5, 0), new Point(0.5, 1)));
-            //}
 
             itemBase.Height = 40;
             itemBase.Orientation = Orientation.Horizontal;
@@ -367,10 +353,10 @@ namespace CM_Lab2_WPF
             }
         }
 
-        private StackPanel MenuItem_StackPanelFrom_ListBoxItem(ListBoxItem lbiIn)
+        /*private StackPanel MenuItem_StackPanelFrom_ListBoxItem(ListBoxItem lbiIn)
         {
             return (((lbiIn.Content as StackPanel).Children[4] as Menu).Items[0] as MenuItem).Items[0] as StackPanel;
-        }
+        }*/
 
         private MenuItem MenuItem_From_ListBoxItem(ListBoxItem lbiIn)
         {
@@ -381,72 +367,124 @@ namespace CM_Lab2_WPF
         {
             if(SelectToAddTransition != null && lbiInvoker != null)
             {
-                SelectToAddTransition.Transition.Add(Accordance[sender as ListBoxItem], 0.0);
-                Label l = ((sender as ListBoxItem).Content as StackPanel).Children[0] as Label;
-                Brush labelBG = l.Background.Clone();
-                string name = l.Content as string;
-                l = new Label();
-                l.Background = labelBG;
-                l.Content = name;
-                l.Height = 30;
-                l.Width = 200;
-                l.HorizontalContentAlignment = HorizontalAlignment.Center;
-                l.VerticalContentAlignment = VerticalAlignment.Center;
+                try
+                {
+                    SelectToAddTransition.Transition.Add(Accordance[sender as ListBoxItem], 0.0);
 
-                StackPanel sp = new StackPanel();
-                sp.Children.Add(l);
-                sp.Width = 443;
-                sp.Orientation = Orientation.Horizontal;
+                    Label l = ((sender as ListBoxItem).Content as StackPanel).Children[0] as Label;
+                    Brush labelBG = l.Background.Clone();
+                    string name = l.Content as string;
+                    l = new Label();
+                    l.Background = labelBG;
+                    l.Content = name;
+                    l.Height = 30;
+                    l.Width = 200;
+                    l.HorizontalContentAlignment = HorizontalAlignment.Center;
+                    l.VerticalContentAlignment = VerticalAlignment.Center;
 
-                Slider s = new Slider();
-                s.Margin = new Thickness(0, 5, 0, 5);
-                s.VerticalContentAlignment = VerticalAlignment.Center;
-                s.HorizontalContentAlignment = HorizontalAlignment.Center;
-                s.Maximum = 100;
-                s.Width = 150;
-                s.IsEnabled = false;
+                    StackPanel sp = new StackPanel();
+                    sp.Children.Add(l);
+                    sp.Width = 443;
+                    sp.Orientation = Orientation.Horizontal;
 
-                TextBox tb = new TextBox();
-                tb.Margin = new Thickness(0, 5, 0, 5);
-                tb.Text = "0,0";
-                tb.VerticalContentAlignment = VerticalAlignment.Center;
-                tb.HorizontalContentAlignment = HorizontalAlignment.Center;
-                tb.Width = 60;
-                tb.IsEnabled = false;
+                    Slider s = new Slider();
+                    s.Margin = new Thickness(0, 5, 0, 5);
+                    s.VerticalContentAlignment = VerticalAlignment.Center;
+                    s.HorizontalContentAlignment = HorizontalAlignment.Center;
+                    s.Maximum = 100;
+                    s.Width = 150;
+                    s.IsEnabled = false;
 
-                CheckBox cb = new CheckBox();
-                cb.Margin = new Thickness(0, 5, 0, 5);
-                cb.VerticalContentAlignment = VerticalAlignment.Center;
-                cb.ToolTip = "Locked";
-                cb.IsEnabled = false;
-                cb.IsChecked = true;
+                    TextBox tb = new TextBox();
+                    tb.Margin = new Thickness(0, 5, 0, 5);
+                    tb.Text = "0,0";
+                    tb.VerticalContentAlignment = VerticalAlignment.Center;
+                    tb.HorizontalContentAlignment = HorizontalAlignment.Center;
+                    tb.Width = 60;
+                    tb.IsEnabled = false;
 
-                Separator s0 = new Separator(), s1 = new Separator(), s2 = new Separator();
-                s0.Width = s1.Width = s2.Width = 3;
-                s0.Background = s1.Background = s2.Background = Brushes.Transparent;
+                    CheckBox cb = new CheckBox();
+                    cb.Margin = new Thickness(0, 5, 0, 5);
+                    cb.VerticalContentAlignment = VerticalAlignment.Center;
+                    cb.ToolTip = "Locked";
+                    cb.IsEnabled = false;
+                    cb.IsChecked = true;
 
-                sp.Children.Add(s0);
-                sp.Children.Add(s);
-                sp.Children.Add(s1);
-                sp.Children.Add(tb);
-                sp.Children.Add(s2);
-                sp.Children.Add(cb);
+                    Separator s0 = new Separator(), s1 = new Separator(), s2 = new Separator();
+                    s0.Width = s1.Width = s2.Width = 3;
+                    s0.Background = s1.Background = s2.Background = Brushes.Transparent;
 
-                MenuItem_From_ListBoxItem(lbiInvoker).Items.Add(sp);
-                SelectToAddTransition = null;
-                lbiInvoker = null;
+                    sp.Children.Add(s0);
+                    sp.Children.Add(s);
+                    sp.Children.Add(s1);
+                    sp.Children.Add(tb);
+                    sp.Children.Add(s2);
+                    sp.Children.Add(cb);
+
+                    MenuItem_From_ListBoxItem(lbiInvoker).Items.Add(sp);
+                    SelectToAddTransition = null;
+                    lbiInvoker = null;
+                    listBox.Cursor = Cursors.Arrow;
+                }
+                catch (Exception ex)
+                {
+                    MyMessageBox.Show(ex.Message);
+                }
+                addButton.IsEnabled = true;
+                removeButton.IsEnabled = true;
+            }
+            if(RemoveItem)
+            {
+                DeviceNode forDelete = Accordance[sender as ListBoxItem];
+                //remove from transitions
+                /*foreach (var spDict in TransitionsDict)
+                {
+                    foreach (var trnsDict in spDict.Value)
+                    {
+                        if(forDelete == trnsDict.Key)
+                        {
+
+                        }
+                    }
+                }*/
+                //remove from dictionary
+
+                //remove from list
+                listBox.Cursor = Cursors.Arrow;
             }
         }
 
         private void AddTransition_ButtonClick(object sender, RoutedEventArgs e)
         {
+            MyMessageBox.Show("Double click on list item to add transition", "Add Transition");
             SelectToAddTransition = Accordance[(((sender as Button).Parent as StackPanel).Parent as ListBoxItem)];
             lbiInvoker = (((sender as Button).Parent as StackPanel).Parent as ListBoxItem);
+            listBox.Cursor = Cursors.UpArrow;
+            addButton.IsEnabled = false;
+            removeButton.IsEnabled = false;
+            cancelButton.IsEnabled = true;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            cancelButton.IsEnabled = true;
+            listBox.Cursor = Cursors.Hand;
+        }
+
+        private void cancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            SelectToAddTransition = null;
+            lbiInvoker = null;
+            RemoveItem = false;
+            addButton.IsEnabled = true;
+            removeButton.IsEnabled = true;
+            cancelButton.IsEnabled = false;
+            listBox.Cursor = Cursors.Arrow;
         }
     }
 }

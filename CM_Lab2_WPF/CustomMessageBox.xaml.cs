@@ -20,10 +20,12 @@ namespace CM_Lab2_WPF
     public partial class CustomMessageBox : Window
     {
         public MyMessageBoxResult result = MyMessageBoxResult.None;
+        private MyMessageBoxButton buttonsHere = MyMessageBoxButton.Ok;
 
         public CustomMessageBox(string text, string caption, MyMessageBoxButton buttons, MyMessageBoxImage icon, MyMessageBoxResult defaultResult)
         {
             InitializeComponent();
+            buttonsHere = buttons;
             result = MyMessageBoxResult.None;
             Text.Text = text;
             GridLength gl = new GridLength(0, GridUnitType.Star);
@@ -52,22 +54,32 @@ namespace CM_Lab2_WPF
                 default:
                     break;
             }
+            Canvas c;
             switch (icon)
             {
-                case MyMessageBoxImage.None:
-                    break;
                 case MyMessageBoxImage.Hand:
+                    c = this.FindResource("Cross") as Canvas;
+                    bgGrid.Children.Add(c);
                     break;
                 case MyMessageBoxImage.Question:
+                    c = this.FindResource("Question") as Canvas;
+                    bgGrid.Children.Add(c);
                     break;
                 case MyMessageBoxImage.Exclamation:
+                    c = this.FindResource("Exclamation") as Canvas;
+                    bgGrid.Children.Add(c);
                     break;
                 case MyMessageBoxImage.Asterisk:
+                    c = this.FindResource("Asterisk") as Canvas;
+                    bgGrid.Children.Add(c);
+                    break;
+                case MyMessageBoxImage.Nuclear:
+                    c = this.FindResource("NuclearIcon") as Canvas;
+                    bgGrid.Children.Add(c);
                     break;
                 default:
                     break;
             }
-
 
         }
 
@@ -116,6 +128,32 @@ namespace CM_Lab2_WPF
         private void captionCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                switch (buttonsHere)
+                {
+                    case MyMessageBoxButton.Ok:
+                        result = MyMessageBoxResult.Ok;
+                        this.Close();
+                        break;
+                    case MyMessageBoxButton.OkCancel:
+                        result = MyMessageBoxResult.Ok;
+                        this.Close();
+                        break;
+                    case MyMessageBoxButton.YesNo:
+                        result = MyMessageBoxResult.Yes;
+                        this.Close();
+                        break;
+                    case MyMessageBoxButton.YesNoCancel:
+                        result = MyMessageBoxResult.Yes;
+                        this.Close();
+                        break;
+                    default:
+                        break;
+                }
         }
     }
 }
